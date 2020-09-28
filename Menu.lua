@@ -14,13 +14,46 @@ function IE.Menu_Init()
         qualityChoices[i] = qualityName
         invertQualityChoices[qualityName] = i
     end
-    
+
     local monsterSets = {}
+    local dungeonSets = {}
+    local trialSets = {}
+    local arenaSets = {}
+    local overlandSets = {}
+    local cyrodiilSets = {}
+    local battlegroundSets = {}
+    local imperialCitySets = {}
+    local specialSets = {}
+
     local setIds = LS.GetAllSetIds()
-    IE.LogLater(setIds)
-    for index, id in pairs(setIds) do
-        if LS.IsMonsterSet(id) then
-            IE.LogLater(LS.GetSetName(id))
+    for setId, isActive in pairs(setIds) do
+        if isActive then
+            local control = {
+                type = "checkbox",
+                name = LS.GetSetName(setId),
+                getFunc = function() return saveData.autoJunk.weaponsArmorJewelry.excludedSets[setId] or false end,
+                setFunc = function(value) saveData.autoJunk.weaponsArmorJewelry.excludedSets[setId] = value or nil end
+            }
+
+            if LS.IsMonsterSet(setId) then
+                table.insert(monsterSets, control)
+            elseif LS.IsDungeonSet(setId) then
+                table.insert(dungeonSets, control)
+            elseif LS.IsTrialSet(setId) then
+                table.insert(trialSets, control)
+            elseif LS.IsArenaSet(setId) then
+                table.insert(arenaSets, control)
+            elseif LS.IsOverlandSet(setId) then
+                table.insert(overlandSets, control)
+            elseif LS.IsCyrodiilSet(setId) then
+                table.insert(cyrodiilSets, control)
+            elseif LS.IsBattlegroundSet(setId) then
+                table.insert(battlegroundSets, control)
+            elseif LS.IsImperialCitySet(setId) then
+                table.insert(imperialCitySets, control)
+            elseif LS.IsSpecialSet(setId) then
+                table.insert(specialSets, control)
+            end
         end
     end
 
@@ -277,53 +310,53 @@ function IE.Menu_Init()
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_MonsterSets"),
-                    controls = {}
+                    controls = monsterSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_DungeonSets"),
-                    controls = {}
+                    controls = dungeonSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_TrialSets"),
-                    controls = {}
+                    controls = trialSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_ArenaSets"),
-                    controls = {}
+                    controls = arenaSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_OverlandSets"),
-                    controls = {}
+                    controls = overlandSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_CyrodiilSets"),
-                    controls = {}
+                    controls = cyrodiilSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_BattlegroundSets"),
-                    controls = {}
+                    controls = battlegroundSets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_ImperialCitySets"),
-                    controls = {}
+                    controls = imperialCitySets
                 },
                 {
                     type = "submenu",
                     name = IE.Loc("Settings_SpecialSets"),
-                    controls = {}
+                    controls = specialSets
                 },
-                {
-                    type = "submenu",
-                    name = IE.Loc("Settings_MythicSets"),
-                    controls = {}
-                }
+                -- { NEVER MARK MYTHICS
+                --     type = "submenu",
+                --     name = IE.Loc("Settings_MythicSets"),
+                --     controls = mythicSets
+                -- }
             }
         },
         {

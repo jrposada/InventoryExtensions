@@ -74,9 +74,13 @@
         "GetItemLinkItemType",
         "LibResearch",
         "LibSets",
-        "IsItemLinkCrafted"
-    ],
-    "Lua.diagnostics.disable": [
-        "undefined-global"
+        "IsItemLinkCrafted",
+        "ITEMTYPE_TRASH",
+        "ITEMTYPE_TREASURE",
+        "ITEMTYPE_ARMOR",
+        "ITEMTYPE_WEAPON",
+        "GetItemLinkSetInfo",
+        "EQUIP_TYPE_NECK",
+        "EQUIP_TYPE_RING"
     ]
 }

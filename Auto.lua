@@ -1,23 +1,12 @@
 local IE = InventoryExtensions
 local LR = LibResearch
+local LS = LibSets
 
 IE.Auto = {}
 
 ----------------------
 -- START Auto mark --
 ----------------------
-
-local INTRINCATE_TYPES = {
-    [ITEM_TRAIT_TYPE_ARMOR_INTRICATE] = true,
-    [ITEM_TRAIT_TYPE_WEAPON_INTRICATE] = true,
-    [ITEM_TRAIT_TYPE_JEWELRY_INTRICATE] = true
-}
-
-local ORNATE_TYPES = {
-    [ITEM_TRAIT_TYPE_ARMOR_ORNATE] = true,
-    [ITEM_TRAIT_TYPE_JEWELRY_ORNATE] = true,
-    [ITEM_TRAIT_TYPE_WEAPON_ORNATE] = true
-}
 
 local function InitAutoJunk()
     local isBankOpen = false
@@ -41,11 +30,6 @@ local function InitAutoJunk()
             else
               return true
             end
-        end
-
-        local function IsOrnateType(traitType)
-            local ornateTypes = ORNATE_TYPES
-            return ornateTypes[traitType]
         end
 
         local function IsResearchable(itemLink)
@@ -72,7 +56,7 @@ local function InitAutoJunk()
         		local isSet, _, _, _, _, setId = GetItemLinkSetInfo(itemLink, false)
 
                 if (isResearchable and IE.SavedVars.autoJunk.weaponsArmorJewelry.excludeResearchable)
-                or (isSet and IE.SavedVars.autoJunk.weaponsArmorJewelry.excludedSets[setId]) then
+                or (isSet and IE.SavedVars.autoJunk.weaponsArmorJewelry.excludedSets[setId] and not LS.IsMythicSet(setId)) then
                     return false
                 end
 
