@@ -89,7 +89,7 @@ local function InitAutoJunk()
             end
         end
 
-        if message ~= messagePrefix then CHAT_SYSTEM:AddMessage(messagePrefix..message) end
+        if message ~= "" then CHAT_SYSTEM:AddMessage(messagePrefix..message) end
     end
 
     -- Initialize UI
