@@ -81,6 +81,7 @@
         "ITEMTYPE_WEAPON",
         "GetItemLinkSetInfo",
         "EQUIP_TYPE_NECK",
-        "EQUIP_TYPE_RING"
+        "EQUIP_TYPE_RING",
+        "GetItemLinkIcon"
     ]
 }

@@ -75,15 +75,21 @@ local function InitAutoJunk()
         end
 
         local bagCache = SHARED_INVENTORY:GenerateFullSlotData(FilterUnwantedItems, BAG_BACKPACK)
-        local message = "IE junk: "
+        local messagePrefix = "[IE:Junk]"
+        local message = ""
         for index, data in pairs(bagCache) do
             if ItemShouldBeJunk(data.bagId, data.slotIndex) then
                 SetItemIsJunk(data.bagId, data.slotIndex, true)
-                message = message..zo_strformat("[<<2>>x <<t:1>>]", GetItemLink(data.bagId, data.slotIndex), data.stackCount)
+                local link = GetItemLink(data.bagId, data.slotIndex)
+                local texture = GetItemLinkIcon(link)
+                message = message..zo_strformat(" |t18:18:<<2>>|t <<t:1>>", link, texture)
+                if data.stackCount ~=1 then
+                    message = message..zo_strformat(" x <<1>>",data.stackCount)
+                end
             end
         end
 
-        if message ~= "IE junk: " then CHAT_SYSTEM:AddMessage(message) end
+        if message ~= messagePrefix then CHAT_SYSTEM:AddMessage(messagePrefix..message) end
     end
 
     -- Initialize UI
