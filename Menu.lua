@@ -371,6 +371,12 @@ function IE.Menu_Init()
                 },
                 {
                     type = "checkbox",
+                    name = IE.Loc("Settings_MarkTreasureMaps"),
+                    getFunc = function() return saveData.autoJunk.miscellaneous.treasureMaps end,
+                    setFunc = function(value) saveData.autoJunk.miscellaneous.treasureMaps = value end
+                },
+                {
+                    type = "checkbox",
                     name = IE.Loc("Settings_MarkTrash"),
                     getFunc = function() return saveData.autoJunk.miscellaneous.trash end,
                     setFunc = function(value) saveData.autoJunk.miscellaneous.trash = value end

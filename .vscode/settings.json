@@ -82,6 +82,8 @@
         "GetItemLinkSetInfo",
         "EQUIP_TYPE_NECK",
         "EQUIP_TYPE_RING",
-        "GetItemLinkIcon"
+        "GetItemLinkIcon",
+        "SPECIALIZED_ITEMTYPE_TROPHY_TREASURE_MAP",
+        "ITEMTYPE_TROPHY"
     ]
 }

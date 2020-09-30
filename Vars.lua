@@ -49,6 +49,7 @@ InventoryExtensions = {
             },
             miscellaneous = {
                 treasures = true,
+                treasureMaps = false,
                 trash = true
             }
         },

@@ -4,6 +4,7 @@ IE.Localization.en = {
     Settings_WeaponsArmorsJewelry = "Weapons, armors and jewelry",
     Settings_Miscellaneous = "Miscellaneous",
     Settings_MarkTreasures = "Treasures",
+    Settings_MarkTreasureMaps = "Treasure maps",
     Settings_MarkTrash = "Trash",
     Settings_MarkWeaponsArmorsJewelry = "Enabled",
     Settings_JewelryQuality = "Jewelry quality",
