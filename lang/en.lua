@@ -1,6 +1,7 @@
 local IE = InventoryExtensions
 
 IE.Localization.en = {
+    Settings_GlobalSettings = "This addon uses global settings!",
     Settings_WeaponsArmorsJewelry = "Weapons, armors and jewelry",
     Settings_Miscellaneous = "Miscellaneous",
     Settings_MarkTreasures = "Treasures",

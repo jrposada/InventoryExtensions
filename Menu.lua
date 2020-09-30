@@ -64,6 +64,10 @@ function IE.Menu_Init()
     }
     local optionsData = {
         {
+            type = "description",
+            text = IE.Loc("Settings_GlobalSettings")
+        },
+        {
             type = "submenu",
             name = IE.Loc("Settings_WeaponsArmorsJewelry"),
             controls = {
