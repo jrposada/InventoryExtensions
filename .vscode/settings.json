@@ -84,6 +84,10 @@
         "EQUIP_TYPE_RING",
         "GetItemLinkIcon",
         "SPECIALIZED_ITEMTYPE_TROPHY_TREASURE_MAP",
-        "ITEMTYPE_TROPHY"
+        "ITEMTYPE_TROPHY",
+        "EVENT_OPEN_GUILD_BANK",
+        "EVENT_CLOSE_GUILD_BANK",
+        "EVENT_OPEN_TRADING_HOUSE",
+        "EVENT_CLOSE_TRADING_HOUSE"
     ]
 }

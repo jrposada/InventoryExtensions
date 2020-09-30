@@ -113,6 +113,10 @@ local function InitAutoJunk()
     ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyHidden', function() button:SetHidden(true) end)
     EVENT_MANAGER:RegisterForEvent(IE.name.."_BankOpened", EVENT_OPEN_BANK, function() isBankOpen = true end)
     EVENT_MANAGER:RegisterForEvent(IE.name .. "_BankClosed", EVENT_CLOSE_BANK, function() isBankOpen = false end)
+    EVENT_MANAGER:RegisterForEvent(IE.name.."_GuildBankOpened", EVENT_OPEN_GUILD_BANK, function() isBankOpen = true end)
+    EVENT_MANAGER:RegisterForEvent(IE.name .. "_GuildBankClosed", EVENT_CLOSE_GUILD_BANK, function() isBankOpen = false end)
+    EVENT_MANAGER:RegisterForEvent(IE.name.."_TradingHouseOpened", EVENT_OPEN_TRADING_HOUSE, function() isBankOpen = true end)
+    EVENT_MANAGER:RegisterForEvent(IE.name .. "_TradingHouseClosed", EVENT_CLOSE_TRADING_HOUSE, function() isBankOpen = false end)
     -- TODO: Fix money tracker shown in bank deposit view
 end
 
