@@ -12,8 +12,9 @@ local function OnAddOnLoaded(eventCode, addonName)
     IE.SavedVars = ZO_SavedVars:NewAccountWide(IE.name.."_Vars", IE.varsVersion, nil, IE.DefaultVars)
 
     -- Initialize stuff
-    IE.Auto.Init()
-    IE.Menu_Init()
+    IE.Junk.Init()
+    IE.MoneyTracker.Init()
+    IE.SettingsMenu.Init()
 end
 
 -- Finally, we'll register our event handler function to be called when the proper event occurs.

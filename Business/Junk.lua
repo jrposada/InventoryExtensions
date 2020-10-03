@@ -2,11 +2,7 @@ local IE = InventoryExtensions
 local LR = LibResearch
 local LS = LibSets
 
-IE.Auto = {}
-
-----------------------
--- START Auto mark --
-----------------------
+IE.Junk = {}
 
 local function InitAutoJunk()
     local isBankOpen = false
@@ -117,65 +113,8 @@ local function InitAutoJunk()
     EVENT_MANAGER:RegisterForEvent(IE.name .. "_GuildBankClosed", EVENT_CLOSE_GUILD_BANK, function() isBankOpen = false end)
     EVENT_MANAGER:RegisterForEvent(IE.name.."_TradingHouseOpened", EVENT_OPEN_TRADING_HOUSE, function() isBankOpen = true end)
     EVENT_MANAGER:RegisterForEvent(IE.name .. "_TradingHouseClosed", EVENT_CLOSE_TRADING_HOUSE, function() isBankOpen = false end)
-    -- TODO: Fix money tracker shown in bank deposit view
 end
 
---------------------
--- END Auto mark --
---------------------
-
--------------------------
--- START Money tracker --
--------------------------
-
-local function UpdateMoneyControlText()
-    local incomeControl = IE.UI.Controls.IncomeLabel
-    local value = IE.SavedVars.dialyGoldIncome
-    incomeControl:SetText("|c008000"..value.."|r |t19:19:esoui/art/currency/currency_gold_32.dds|t")
-end
-
-local function OnMoneyUpdate(eventCode, newMoney, oldMoney, reason)
-    -- Only record incomes
-    if reason ~= CURRENCY_CHANGE_REASON_BUYBACK and (newMoney < oldMoney) or reason == CURRENCY_CHANGE_REASON_BANK_WITHDRAWAL or reason == CURRENCY_CHANGE_REASON_GUILD_BANK_WITHDRAWAL then return end
-
-    local newIncome = newMoney - oldMoney
-
-    IE.SavedVars.dialyGoldIncome = newIncome + IE.SavedVars.dialyGoldIncome
-    UpdateMoneyControlText()
-end
-
-local function InitDialyGoldIncome()
-    -- Check if we need to reset
-    local vars = IE.SavedVars
-	local day=math.floor(GetDiffBetweenTimeStamps(GetTimeStamp(),1517464800)/86400)
-    if (vars.lastDialyGoldIncomeDay ~= day) then
-        IE.SavedVars.lastDialyGoldIncomeDay = day
-        IE.SavedVars.dialyGoldIncome = 0
-    end
-
-    -- Initialize the UI
-    -- name, parent, dims, anchor, font, color, align, text, hidden
-    local money = ZO_PlayerInventoryInfoBarMoney
-    local width = money:GetWidth()
-    local height = money:GetHeight()
-    local va = money:GetVerticalAlignment()
-    local ha = money:GetHorizontalAlignment()
-
-    IE.UI.Controls.IncomeLabel = IE.UI.Label(IE.name.."_PlayerInventoryInfoBarIncome", ZO_PlayerInventoryInfoBarMoney, {width, height}, {TOPRIGHT,BOTTOMRIGHT,0,0}, "ZoFontGameLarge", nil, {ha,va}, "0")
-    UpdateMoneyControlText()
-
-    -- Register for gold income event
-    EVENT_MANAGER:RegisterForEvent(IE.name .. "MoneyUpdate_Event", EVENT_MONEY_UPDATE, OnMoneyUpdate)
-end
-
------------------------
--- END Money tracker --
------------------------
-
-function IE.Auto.Init()
-    local vars = IE.SavedVars
-
-    -- Enable only user selected funcitonality
+function IE.Junk.Init()
     InitAutoJunk()
-    if (vars.dialyGoldIncomeTracker) then InitDialyGoldIncome() end
 end

@@ -88,6 +88,7 @@
         "EVENT_OPEN_GUILD_BANK",
         "EVENT_CLOSE_GUILD_BANK",
         "EVENT_OPEN_TRADING_HOUSE",
-        "EVENT_CLOSE_TRADING_HOUSE"
+        "EVENT_CLOSE_TRADING_HOUSE",
+        "ArkadiusTradeTools"
     ]
 }

@@ -2,7 +2,9 @@ local IE = InventoryExtensions
 local LAM = LibAddonMenu2
 local LS = LibSets
 
-function IE.Menu_Init()
+IE.SettingsMenu = {}
+
+function IE.SettingsMenu.Init()
     local saveData = IE.SavedVars -- TODO this should be a reference to your actual saved variables table
     local panelName = IE.name.."_SettingsPanel" -- TODO the name will be used to create a global variable, pick something unique or you may overwrite an existing variable!
 
