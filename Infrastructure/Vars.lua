@@ -48,6 +48,7 @@ InventoryExtensions = {
                 excludedSets = {} -- array
             },
             miscellaneous = {
+                monsterTropies = true,
                 treasures = true,
                 treasureMaps = false,
                 trash = true

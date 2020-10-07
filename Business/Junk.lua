@@ -35,6 +35,7 @@ local function InitAutoJunk()
             return isResearchable
         end
 
+        local counter = 1
         local function ItemShouldBeJunk(bagId, slotId)
             local _, stackCount, sellPrice, _, _, equipType, itemStyle, quality = GetItemInfo(bagId, slotId)
             if stackCount < 1 then return false end
@@ -43,7 +44,8 @@ local function InitAutoJunk()
 
             if IE.SavedVars.autoJunk.miscellaneous.trash and itemType == ITEMTYPE_TRASH then return true -- Trash
             elseif IE.SavedVars.autoJunk.miscellaneous.treasures and itemType == ITEMTYPE_TREASURE then return true -- Treasures
-            elseif IE.SavedVars.autoJunk.miscellaneous.treasureMaps and itemType == ITEMTYPE_TROPHY and specializedItemType == SPECIALIZED_ITEMTYPE_TROPHY_TREASURE_MAP then return true -- Treasures
+            elseif IE.SavedVars.autoJunk.miscellaneous.monsterTropies and itemType == ITEMTYPE_COLLECTIBLE and specializedItemType == SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY then return true -- Monster trophy
+            elseif IE.SavedVars.autoJunk.miscellaneous.treasureMaps and itemType == ITEMTYPE_TROPHY and specializedItemType == SPECIALIZED_ITEMTYPE_TROPHY_TREASURE_MAP then return true -- Treasures map
             elseif IE.SavedVars.autoJunk.weaponsArmorJewelry.enabled and (itemType == ITEMTYPE_ARMOR or itemType == ITEMTYPE_WEAPON) then
                 --exclude crafted items
                 if IsItemLinkCrafted(itemLink) then return false end

@@ -95,6 +95,8 @@
         "ZO_CraftBagList",
         "ZO_ScrollList_GetDataList",
         "CT_TEXTURE",
-        "DT_HIGH"
+        "DT_HIGH",
+        "ITEMTYPE_COLLECTIBLE",
+        "SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY"
     ]
 }

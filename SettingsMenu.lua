@@ -371,6 +371,12 @@ function IE.SettingsMenu.Init()
             controls = {
                 {
                     type = "checkbox",
+                    name = IE.Loc("Settings_MarkMonsterTrophies"),
+                    getFunc = function() return saveData.autoJunk.miscellaneous.monsterTropies end,
+                    setFunc = function(value) saveData.autoJunk.miscellaneous.monsterTropies = value end
+                },
+                {
+                    type = "checkbox",
                     name = IE.Loc("Settings_MarkTreasures"),
                     getFunc = function() return saveData.autoJunk.miscellaneous.treasures end,
                     setFunc = function(value) saveData.autoJunk.miscellaneous.treasures = value end
