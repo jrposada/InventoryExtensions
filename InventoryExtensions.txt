@@ -25,6 +25,7 @@ lang\$(language).lua
 Business/Junk.lua
 Business/HighValue.lua
 Business/MoneyTracker.lua
+Business/MarkItem.lua
 
 SettingsMenu.lua
 Main.lua

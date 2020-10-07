@@ -15,6 +15,7 @@ local function OnAddOnLoaded(eventCode, addonName)
     IE.Junk.Init()
     IE.MoneyTracker.Init()
     IE.SettingsMenu.Init()
+    -- IE.MarkItem.Init()
 end
 
 -- Finally, we'll register our event handler function to be called when the proper event occurs.

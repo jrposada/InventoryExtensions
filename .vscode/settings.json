@@ -89,6 +89,12 @@
         "EVENT_CLOSE_GUILD_BANK",
         "EVENT_OPEN_TRADING_HOUSE",
         "EVENT_CLOSE_TRADING_HOUSE",
-        "ArkadiusTradeTools"
+        "ArkadiusTradeTools",
+        "ZO_PreHook",
+        "ZO_PlayerInventoryList",
+        "ZO_CraftBagList",
+        "ZO_ScrollList_GetDataList",
+        "CT_TEXTURE",
+        "DT_HIGH"
     ]
 }

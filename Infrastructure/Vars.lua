@@ -55,5 +55,9 @@ InventoryExtensions = {
         },
         dialyGoldIncomeTracker = true,
         dialyGoldIncome = 0
+    },
+    InventoryLists = {
+        [ZO_PlayerInventoryList] = true,
+        [ZO_CraftBagList] = true
     }
 }
