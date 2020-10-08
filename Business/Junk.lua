@@ -36,17 +36,26 @@ local function InitAutoJunk()
             return isResearchable
         end
 
-        local counter = 1
         local function ItemShouldBeJunk(bagId, slotId)
             local _, stackCount, sellPrice, _, _, equipType, itemStyle, quality = GetItemInfo(bagId, slotId)
             if stackCount < 1 then return false end
             local itemLink = GetItemLink(bagId, slotId)
             local itemType, specializedItemType = GetItemLinkItemType(itemLink)
+            local itemInstanceId = GetItemInstanceId(bagId, slotId)
 
-            if IE.SavedVars.autoJunk.miscellaneous.trash and itemType == ITEMTYPE_TRASH then return true -- Trash
+            if IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil then return false -- Ignored items
+            elseif IE.SavedVars.autoJunk.miscellaneous.trash and itemType == ITEMTYPE_TRASH then return true -- Trash
             elseif IE.SavedVars.autoJunk.miscellaneous.treasures and itemType == ITEMTYPE_TREASURE then return true -- Treasures
             elseif IE.SavedVars.autoJunk.miscellaneous.monsterTropies and itemType == ITEMTYPE_COLLECTIBLE and specializedItemType == SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY then return true -- Monster trophy
             elseif IE.SavedVars.autoJunk.miscellaneous.treasureMaps and itemType == ITEMTYPE_TROPHY and specializedItemType == SPECIALIZED_ITEMTYPE_TROPHY_TREASURE_MAP then return true -- Treasures map
+            elseif IE.SavedVars.autoJunk.consumibles.foodAndDrinks and (itemType == ITEMTYPE_FOOD or itemType == ITEMTYPE_DRINK) then -- Foods and drinks
+                if IE.SavedVars.autoJunk.consumibles.ignoreBound and IsItemLinkBound(itemLink) then return false
+                elseif IE.SavedVars.autoJunk.consumibles.ignoreCrafted and IsItemLinkCrafted(itemLink) then return false
+                else return true end
+            elseif IE.SavedVars.autoJunk.consumibles.potionsAndPoisons and (itemType == ITEMTYPE_POTION or itemType == ITEMTYPE_POISON) then -- Postions and posions
+                if IE.SavedVars.autoJunk.consumibles.ignoreBound and IsItemLinkBound(itemLink) then return false
+                elseif IE.SavedVars.autoJunk.consumibles.ignoreCrafted and IsItemLinkCrafted(itemLink) then return false
+                else return true end
             elseif IE.SavedVars.autoJunk.weaponsArmorJewelry.enabled and (itemType == ITEMTYPE_ARMOR or itemType == ITEMTYPE_WEAPON) then
                 --exclude crafted items
                 if IsItemLinkCrafted(itemLink) then return false end
@@ -92,6 +101,20 @@ local function InitAutoJunk()
         if message ~= "" then CHAT_SYSTEM:AddMessage(messagePrefix..message) end
     end
 
+    local function AddIgnoreJunkOption(control)
+        local control = control
+        local itemLink = GetItemLink(control.bagId, control.slotIndex)
+        local itemInstanceId = GetItemInstanceId(control.bagId, control.slotIndex)
+        local isIgnored = IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil
+        local linkName = GetItemLinkName(itemLink)
+
+        if isIgnored then
+            zo_callLater(function () AddCustomMenuItem(IE.Loc("AllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = nil end) end, 50)
+        else
+            zo_callLater(function () AddCustomMenuItem(IE.Loc("NotAllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = linkName end) end, 50)
+        end
+    end
+
     -- Initialize UI
     local parent = ZO_PlayerInventory
     local button = WINDOW_MANAGER:CreateControlFromVirtual("IE_AutoJunk", parent, "ZO_DefaultButton")
@@ -108,6 +131,7 @@ local function InitAutoJunk()
     controls.AutoStoreButton = button
 
     -- Register for events
+    ZO_PreHook("ZO_InventorySlot_ShowContextMenu", function(control) AddIgnoreJunkOption(control) end)
     ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() RefreshAutoJunkUi() end)
     ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyHidden', function() button:SetHidden(true) end)
     EM:RegisterForEvent(IE.name.."_BankOpened", EVENT_OPEN_BANK, function() isBankOpen = true end)

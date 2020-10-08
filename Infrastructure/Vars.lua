@@ -47,12 +47,19 @@ InventoryExtensions = {
                 },
                 excludedSets = {} -- array
             },
+            consumibles = {
+                foodAndDrinks = true,
+                potionsAndPoisons = true,
+                ignoreCrafted = true,
+                ignoreBound = true
+            },
             miscellaneous = {
                 monsterTropies = true,
                 treasures = true,
                 treasureMaps = false,
                 trash = true
-            }
+            },
+            ignored = {}
         },
         dialyGoldIncomeTracker = true,
         dialyGoldIncome = 0

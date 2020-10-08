@@ -59,6 +59,17 @@ function IE.SettingsMenu.Init()
         end
     end
 
+    local ignoredConsumibles = {}
+    for itemInstanceId, linkName in pairs (saveData.autoJunk.ignored) do
+        local control = {
+            type = "checkbox",
+            name = linkName,
+            getFunc = function() return saveData.autoJunk.ignored[itemInstanceId] ~= nil end,
+            setFunc = function(value) saveData.autoJunk.ignored[itemInstanceId] = (value and linkName) or nil end
+        }
+        table.insert(ignoredConsumibles, control)
+    end
+
     local panelData = {
         type = "panel",
         name = "Inventory Extensions",
@@ -363,6 +374,41 @@ function IE.SettingsMenu.Init()
                 --     name = IE.Loc("Settings_MythicSets"),
                 --     controls = mythicSets
                 -- }
+            }
+        },
+        {
+            type = "submenu",
+            name = IE.Loc("Settings_Consumibles"),
+            controls = {
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_FoodAndDrinks"),
+                    getFunc = function() return saveData.autoJunk.consumibles.foodAndDrinks end,
+                    setFunc = function(value) saveData.autoJunk.consumibles.foodAndDrinks = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_PotionsAndPoisons"),
+                    getFunc = function() return saveData.autoJunk.consumibles.potionsAndPoisons end,
+                    setFunc = function(value) saveData.autoJunk.consumibles.potionsAndPoisons = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_JunkIgnoreCrafted"),
+                    getFunc = function() return saveData.autoJunk.consumibles.ignoreCrafted end,
+                    setFunc = function(value) saveData.autoJunk.consumibles.ignoreCrafted = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_JunkIgnoreBound"),
+                    getFunc = function() return saveData.autoJunk.consumibles.ignoreBound end,
+                    setFunc = function(value) saveData.autoJunk.consumibles.ignoreBound = value end
+                },
+                {
+                    type = "submenu",
+                    name = IE.Loc("Settings_IgnoredItems"),
+                    controls = ignoredConsumibles
+                },
             }
         },
         {

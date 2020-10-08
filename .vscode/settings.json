@@ -97,6 +97,14 @@
         "CT_TEXTURE",
         "DT_HIGH",
         "ITEMTYPE_COLLECTIBLE",
-        "SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY"
+        "SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY",
+        "ITEMTYPE_DRINK",
+        "ITEMTYPE_FOOD",
+        "ITEMTYPE_POISON",
+        "ITEMTYPE_POTION",
+        "IsItemLinkBound",
+        "GetItemInstanceId",
+        "AddCustomMenuItem",
+        "GetItemLinkName"
     ]
 }
