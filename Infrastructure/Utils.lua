@@ -1,14 +1,15 @@
 local IE = InventoryExtensions
+local EM = EVENT_MANAGER
 
 function IE.CallLater(name,ms,func,opt1,opt2)
 	if ms then
-		EVENT_MANAGER:RegisterForUpdate("CallLater_"..name, ms,
+		EM:RegisterForUpdate("CallLater_"..name, ms,
 		function()
-			EVENT_MANAGER:UnregisterForUpdate("CallLater_"..name)
+			EM:UnregisterForUpdate("CallLater_"..name)
 			func(opt1,opt2)
 		end)
 	else
-		EVENT_MANAGER:UnregisterForUpdate("CallLater_"..name)
+		EM:UnregisterForUpdate("CallLater_"..name)
 	end
 end
 

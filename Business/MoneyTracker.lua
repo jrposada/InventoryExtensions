@@ -1,4 +1,5 @@
 local IE = InventoryExtensions
+local EM = EVENT_MANAGER
 
 IE.MoneyTracker = {}
 
@@ -38,7 +39,7 @@ local function InitDialyGoldIncome()
     UpdateMoneyControlText()
 
     -- Register for gold income event
-    EVENT_MANAGER:RegisterForEvent(IE.name .. "MoneyUpdate_Event", EVENT_MONEY_UPDATE, OnMoneyUpdate)
+    EM:RegisterForEvent(IE.name .. "MoneyUpdate_Event", EVENT_MONEY_UPDATE, OnMoneyUpdate)
     -- TODO: Fix money tracker shown in bank deposit view
 end
 
