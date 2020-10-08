@@ -104,14 +104,24 @@ local function InitAutoJunk()
     local function AddIgnoreJunkOption(control)
         local control = control
         local itemLink = GetItemLink(control.bagId, control.slotIndex)
-        local itemInstanceId = GetItemInstanceId(control.bagId, control.slotIndex)
-        local isIgnored = IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil
-        local linkName = GetItemLinkName(itemLink)
+        local itemType, specializedItemType = GetItemLinkItemType(itemLink)
+        local consumibleTypes = {
+            [ITEMTYPE_FOOD] = true,
+            [ITEMTYPE_DRINK] = true,
+            [ITEMTYPE_POTION] = true,
+            [ITEMTYPE_POISON] = true
+        }
 
-        if isIgnored then
-            zo_callLater(function () AddCustomMenuItem(IE.Loc("AllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = nil end) end, 50)
-        else
-            zo_callLater(function () AddCustomMenuItem(IE.Loc("NotAllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = linkName end) end, 50)
+        if consumibleTypes[itemType] or false then
+            local itemInstanceId = GetItemInstanceId(control.bagId, control.slotIndex)
+            local isIgnored = IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil
+            local linkName = GetItemLinkName(itemLink)
+    
+            if isIgnored then
+                zo_callLater(function () AddCustomMenuItem(IE.Loc("AllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = nil end) end, 50)
+            else
+                zo_callLater(function () AddCustomMenuItem(IE.Loc("NotAllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = linkName end) end, 50)
+            end
         end
     end
 
