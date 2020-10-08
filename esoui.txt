@@ -1,0 +1,65 @@
+This addon adds a bit of functionality and information to the Inventory UI
+
+[SIZE="4"]Features[/SIZE]
+[LIST]
+Mark as Junk
+[/LIST]
+Adds a button to scan the inventory and mark configured items as junk. All items marked as such will be linked in the chat. Current options are:
+[INDENT]
+[LIST]
+Weapons, Armors & Jewelry
+[LIST]
+By armor and weapon quality
+[/LIST]
+[LIST]
+By jewelry quality
+[/LIST]
+[LIST]
+By researchable status (currently only check with logged character)
+[/LIST]
+[LIST]
+By trait
+[/LIST]
+[LIST]
+By set. [B]IMPORTANT[/B] Default configuration marks all sets as junk. If you want to keep any particular set, enable the corresponding exclude rule from this list.
+[/LIST]
+[/LIST]
+[LIST]
+Consumables
+[LIST]
+Food & Drinks
+[/LIST]
+[LIST]
+Potions & Poisons
+[/LIST]
+[LIST]
+Ignore crafted items. (Usefull to keep extra crafts from daily writs)
+[/LIST]
+[LIST]
+Ignore bound items. (Mainly to keep dialy rewards consumables
+[/LIST]
+[LIST]
+Ignored items: Items on this list will never be marked as junk, even if they match all of the rules. To add an item right click on in in the inventory and select the appropiate option from the context menu. To remove an item use the context menu again or simply uncheck the options here. [B]NOTE:[/B] Rules will be saved without the need to reload the UI, but in order for the list to update its content [B]UI needs to be reloaded[/B]
+[/LIST]
+[/LIST]
+[LIST]
+Miscellaneous
+[LIST]
+Monster trophies
+[/LIST]
+[LIST]
+Treasures
+[/LIST]
+[LIST]
+Treasure maps
+[/LIST]
+[LIST]
+Trash
+[/LIST]
+[/LIST]
+[/INDENT]
+[/LIST]
+[LIST]
+Money tracker
+[/LIST]
+Simply tracks all the gold you have earn today (value gets reset to 0 when the day changes) and displays it at the bottom of the inventory. Note this value is cross character. The idea is to be able to see how much gold you have won the current day in the account.
