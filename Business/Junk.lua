@@ -1,15 +1,12 @@
 local IE = InventoryExtensions
 local LR = LibResearch
 local LS = LibSets
-local EM = EVENT_MANAGER
 
 IE.Junk = {}
 
 local function InitAutoJunk()
-    local isBankOpen = false
-
     local function RefreshAutoJunkUi()
-        if not isBankOpen then
+        if not IE.Events.isBankOpen then
             local button = IE.UI.Controls.AutoStoreButton
             button:SetHidden(false)
         end
@@ -144,12 +141,6 @@ local function InitAutoJunk()
     ZO_PreHook("ZO_InventorySlot_ShowContextMenu", function(control) AddIgnoreJunkOption(control) end)
     ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() RefreshAutoJunkUi() end)
     ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyHidden', function() button:SetHidden(true) end)
-    EM:RegisterForEvent(IE.name.."_BankOpened", EVENT_OPEN_BANK, function() isBankOpen = true end)
-    EM:RegisterForEvent(IE.name .. "_BankClosed", EVENT_CLOSE_BANK, function() isBankOpen = false end)
-    EM:RegisterForEvent(IE.name.."_GuildBankOpened", EVENT_OPEN_GUILD_BANK, function() isBankOpen = true end)
-    EM:RegisterForEvent(IE.name .. "_GuildBankClosed", EVENT_CLOSE_GUILD_BANK, function() isBankOpen = false end)
-    EM:RegisterForEvent(IE.name.."_TradingHouseOpened", EVENT_OPEN_TRADING_HOUSE, function() isBankOpen = true end)
-    EM:RegisterForEvent(IE.name .. "_TradingHouseClosed", EVENT_CLOSE_TRADING_HOUSE, function() isBankOpen = false end)
 end
 
 function IE.Junk.Init()

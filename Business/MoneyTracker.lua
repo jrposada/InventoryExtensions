@@ -19,6 +19,11 @@ local function OnMoneyUpdate(eventCode, newMoney, oldMoney, reason)
     UpdateMoneyControlText()
 end
 
+local function RefreshMoneyTrackerUi()
+    -- Hide tracker if banks is open
+    IE.UI.Controls.IncomeLabel:SetHidden(IE.Events.isBankOpen)
+end
+
 local function InitDialyGoldIncome()
     -- Check if we need to reset
     local vars = IE.SavedVars
@@ -40,6 +45,7 @@ local function InitDialyGoldIncome()
 
     -- Register for gold income event
     EM:RegisterForEvent(IE.name .. "MoneyUpdate_Event", EVENT_MONEY_UPDATE, OnMoneyUpdate)
+    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() RefreshMoneyTrackerUi() end)
     -- TODO: Fix money tracker shown in bank deposit view
 end
 
