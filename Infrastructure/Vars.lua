@@ -1,5 +1,6 @@
 InventoryExtensions = {
     name = "InventoryExtensions",
+    version = 1,
     varsVersion = 1,
     Localization = {},
     Loc = function(var) return InventoryExtensions.Localization.en[var] or var end,
@@ -61,10 +62,15 @@ InventoryExtensions = {
             },
             ignored = {}
         },
+        highTradeValue = {
+            enabled = true,
+            days = 10,
+            minIncome = 50
+        },
         dialyGoldIncomeTracker = true,
         dialyGoldIncome = 0
     },
-    InventoryLists = {
+    PlayerInventoryLists = {
         [ZO_PlayerInventoryList] = true,
         [ZO_CraftBagList] = true
     }

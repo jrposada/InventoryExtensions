@@ -2,7 +2,7 @@
 ## Description: Automaticaly marks items in the inventory.
 ## Author: Panicida
 ## APIVersion: 100032
-## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu
+## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu LibLoadedAddons LibFilters-3.0
 ## SavedVariables: InventoryExtensions_Vars
 
 ; DISCLAIMER:
@@ -24,7 +24,7 @@ lang\en.lua
 lang\$(language).lua
 
 Business/Junk.lua
-Business/HighValue.lua
+Business/HighTradeValue.lua
 Business/MoneyTracker.lua
 Business/MarkItem.lua
 

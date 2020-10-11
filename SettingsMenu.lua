@@ -440,6 +440,33 @@ function IE.SettingsMenu.Init()
                     setFunc = function(value) saveData.autoJunk.miscellaneous.trash = value end
                 },
             },
+        },
+        {
+            type = "divider"
+        },
+        {
+            type = "checkbox",
+            name = IE.Loc("Settings_HighTradeValue"),
+            getFunc = function() return saveData.highTradeValue.enabled end,
+            setFunc = function(value) saveData.highTradeValue.enabled = value end
+        },
+        {
+            type = "slider",
+            name = IE.Loc("Settings_HighTradeValueDays"),
+            getFunc = function() return saveData.highTradeValue.days end,
+            setFunc = function(value) saveData.highTradeValue.days = value end,
+            max = 30,
+            min = 0,
+            step = 1
+        },
+        {
+            type = "slider",
+            name = IE.Loc("Settings_HighTradeValueMinValue"),
+            getFunc = function() return saveData.highTradeValue.minIncome end,
+            setFunc = function(value) saveData.highTradeValue.minIncome = value end,
+            max = 250000,
+            min = 0,
+            step = 1
         }
     }
 

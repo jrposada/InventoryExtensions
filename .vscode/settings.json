@@ -105,6 +105,11 @@
         "IsItemLinkBound",
         "GetItemInstanceId",
         "AddCustomMenuItem",
-        "GetItemLinkName"
+        "GetItemLinkName",
+        "LibLoadedAddons",
+        "LibFilters3",
+        "LF_INVENTORY",
+        "LF_CRAFTBAG",
+        "BAG_VIRTUAL"
     ]
 }

@@ -113,7 +113,7 @@ local function InitAutoJunk()
             local itemInstanceId = GetItemInstanceId(control.bagId, control.slotIndex)
             local isIgnored = IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil
             local linkName = GetItemLinkName(itemLink)
-    
+
             if isIgnored then
                 zo_callLater(function () AddCustomMenuItem(IE.Loc("AllowJunk"), function() IE.SavedVars.autoJunk.ignored[itemInstanceId] = nil end) end, 50)
             else

@@ -7,7 +7,7 @@ local function IsMarked(itemLink)
 end
 
 local function ScrollListCommit(list)
-    if (IE.InventoryLists[list]) then
+    if (IE.PlayerInventoryLists[list]) then
         local scrollData = ZO_ScrollList_GetDataList(list)
         for i = 1, #scrollData do
             local data = scrollData[i].data
@@ -45,7 +45,7 @@ end
 local function InitMarkItem()
     ZO_PreHook("ZO_ScrollList_Commit", ScrollListCommit)
 
-    local lists = IE.InventoryLists
+    local lists = IE.PlayerInventoryLists
     for listView, _ in pairs(lists) do
         if listView and listView.dataTypes and listView.dataTypes[1] then
             ZO_PreHook(listView.dataTypes[1], "setupCallback", function (control, slot)
