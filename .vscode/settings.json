@@ -111,6 +111,7 @@
         "LF_INVENTORY",
         "LF_CRAFTBAG",
         "BAG_VIRTUAL",
-        "CT_BUTTON"
+        "CT_BUTTON",
+        "ZO_CraftBag"
     ]
 }
