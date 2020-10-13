@@ -1,6 +1,6 @@
 local IE = InventoryExtensions
 local LIBLA = LibLoadedAddons
-local ATTS = ArkadiusTradeTools.Modules.Sales
+local ATTS = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
 local LF = LibFilters3
 
 IE.HighTradeValue = {}
@@ -26,31 +26,8 @@ local function IsHighTradeValue(itemLink)
     end
 end
 
--- local function ScrollListCommit(list)
---     local isATTSLoaded = LIBLA:IsAddonLoaded(ATTS.NAME)
---     counter = counter + 1
---     IE.LogLater("Scoll list commit"..counter)
---     if not isATTSLoaded then return end
-
---     if (IE.PlayerInventoryLists[list]) then
---         local scrollData = ZO_ScrollList_GetDataList(list)
---         for i = 1, #scrollData do
---             local data = scrollData[i].data
---             local bagId = data.bagId
---             local slotIndex = data.slotIndex
---             local itemLink = bagId and GetItemLink(bagId, slotIndex) or GetItemLink(slotIndex)
---             if itemLink then
---                 local isHighTradeValue = IsHighTradeValue(itemLink)
---                 data.isHighTradeValue = isHighTradeValue
---             end
---         end
---     end
--- end
-
-local function FilterByHighTradeValue(control)
+local function FilterByHighTradeValue()
     local function Filter(control)
-        -- IE.LogLater(args1)
-        -- IE.LogLater(args2)
         return control.isHighTradeValue
     end
 
@@ -100,6 +77,8 @@ function IE.HighTradeValue.Init()
     button:SetClickSound("Click")
     button:SetHandler("OnClicked", function() FilterByHighTradeValue() end)
     button:SetState(BSTATE_NORMAL)
-    button:SetHidden(false)
+    button:SetHidden(true)
     button:SetDrawTier(2)
+
+    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if ATTS then button:SetHidden(false) end end)
 end
