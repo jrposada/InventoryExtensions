@@ -112,6 +112,7 @@
         "LF_CRAFTBAG",
         "BAG_VIRTUAL",
         "CT_BUTTON",
-        "ZO_CraftBag"
+        "ZO_CraftBag",
+        "MasterMerchant"
     ]
 }

@@ -1,9 +1,15 @@
 local IE = InventoryExtensions
 local LAM = LibAddonMenu2
 local LS = LibSets
-local ATTS = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
 
 IE.SettingsMenu = {}
+
+local function IsAnySalesAddonLoaded()
+    local atts = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
+    local mm = MasterMerchant
+
+    return atts ~= nil or mm ~= nil
+end
 
 function IE.SettingsMenu.Init()
     local saveData = IE.SavedVars -- TODO this should be a reference to your actual saved variables table
@@ -85,9 +91,9 @@ function IE.SettingsMenu.Init()
         {
             type = "checkbox",
             name = IE.Loc("Settings_AutoJunk_HighTradeValue"),
-            getFunc = function() return ATTS ~= nil and saveData.autoJunk.ignoredHighTradeValue end,
+            getFunc = function() return IsAnySalesAddonLoaded() and saveData.autoJunk.ignoredHighTradeValue end,
             setFunc = function(value) saveData.autoJunk.ignoredHighTradeValue = value end,
-            disabled = function() return ATTS == nil end,
+            disabled = function() return not IsAnySalesAddonLoaded() end,
             warning = IE.Loc("Settings_MerchantAddonNeeded")
         },
         {
@@ -457,9 +463,9 @@ function IE.SettingsMenu.Init()
         {
             type = "checkbox",
             name = IE.Loc("Settings_HighTradeValue"),
-            getFunc = function() return ATTS ~= nil and saveData.highTradeValue.enabled end,
+            getFunc = function() return IsAnySalesAddonLoaded() and saveData.highTradeValue.enabled end,
             setFunc = function(value) saveData.highTradeValue.enabled = value end,
-            disabled = function() return ATTS == nil end,
+            disabled = function() return not IsAnySalesAddonLoaded() end,
             warning = IE.Loc("Settings_MerchantAddonNeeded")
         },
         {
@@ -470,7 +476,7 @@ function IE.SettingsMenu.Init()
             max = 30,
             min = 0,
             step = 1,
-            disabled = function() return ATTS == nil or (not saveData.highTradeValue.enabled) end
+            disabled = function() return not IsAnySalesAddonLoaded() or (not saveData.highTradeValue.enabled) end
         },
         {
             type = "slider",
@@ -480,7 +486,7 @@ function IE.SettingsMenu.Init()
             max = 250000,
             min = 0,
             step = 1,
-            disabled = function() return ATTS == nil or (not saveData.highTradeValue.enabled) end
+            disabled = function() return not IsAnySalesAddonLoaded() or (not saveData.highTradeValue.enabled) end
         }
     }
 

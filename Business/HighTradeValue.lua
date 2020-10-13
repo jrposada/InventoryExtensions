@@ -1,24 +1,51 @@
 local IE = InventoryExtensions
-local ATTS = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
 local LF = LibFilters3
 
 IE.HighTradeValue = {}
 
 local SECONDS_IN_DAY = 60 * 60 * 24
 
+local function IsAnySalesAddonLoaded()
+    local atts = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
+    local mm = MasterMerchant
+
+    return atts ~= nil or mm ~= nil
+end
+
 function IE.HighTradeValue.IsHighTradeValue(itemLink)
-    local fromTimeStamp = GetTimeStamp() - IE.SavedVars.highTradeValue.days * SECONDS_IN_DAY
-    local salesInfo = ATTS:GetItemSalesInformation(itemLink, fromTimeStamp)[itemLink]
+    local atts = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
+    local mm = MasterMerchant
 
-    if not salesInfo then return false end
-
-    local averagePrice = ATTS:GetAveragePricePerItem(itemLink, fromTimeStamp)
-    local quantity = 0
-    for _, sale in pairs(salesInfo) do
-        quantity = quantity + sale.quantity
+    local function GetMMSalesInfo()
+        local salesInfo = mm:itemStats(itemLink, false)
+        return (salesInfo.avgPrice or 0) * (salesInfo.numItems or 0)
     end
 
-    if averagePrice * quantity >= IE.SavedVars.highTradeValue.minIncome then
+    local function GetATTSSalesInfo()
+        local fromTimeStamp = GetTimeStamp() - IE.SavedVars.highTradeValue.days * SECONDS_IN_DAY
+        local salesInfo = atts:GetItemSalesInformation(itemLink, fromTimeStamp)[itemLink]
+
+        if not salesInfo then return false end
+
+        local averagePrice = atts:GetAveragePricePerItem(itemLink, fromTimeStamp)
+        local quantity = 0
+        for _, sale in pairs(salesInfo) do
+            quantity = quantity + sale.quantity
+        end
+
+        return averagePrice * quantity
+    end
+
+    local overallTransactionValue = 0
+    if atts then
+        overallTransactionValue = GetATTSSalesInfo()
+    elseif mm then
+        overallTransactionValue = GetMMSalesInfo()
+    else
+        return false
+    end
+
+    if overallTransactionValue >= IE.SavedVars.highTradeValue.minIncome then
         return true
     else
         return false
@@ -129,14 +156,17 @@ local function CreateFilterButton(parent)
 end
 
 function IE.HighTradeValue.Init()
-    -- Create filter button
-    if ATTS then
-        local inventoryButton = CreateFilterButton(ZO_PlayerInventory)
-        local craftBagButton = CreateFilterButton(ZO_CraftBag)
-        IE.UI.Controls.InventoryButton = inventoryButton
-        IE.UI.Controls.CraftBagButton = craftBagButton
-
-        ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if IE.SavedVars.highTradeValue.enabled then inventoryButton:SetHidden(false) else inventoryButton:SetHidden(true) end end)
-        ZO_PreHookHandler(ZO_CraftBag, 'OnEffectivelyShown', function() if IE.SavedVars.highTradeValue.enabled then craftBagButton:SetHidden(false) else craftBagButton:SetHidden(true) end end)
+    local function IsFeatureEnabled()
+        local isFeatureEnabled = IE.SavedVars.highTradeValue.enabled and IsAnySalesAddonLoaded()
+        return isFeatureEnabled
     end
+
+    -- Create filter button
+    local inventoryButton = CreateFilterButton(ZO_PlayerInventory)
+    local craftBagButton = CreateFilterButton(ZO_CraftBag)
+    IE.UI.Controls.InventoryButton = inventoryButton
+    IE.UI.Controls.CraftBagButton = craftBagButton
+
+    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if IsFeatureEnabled() then inventoryButton:SetHidden(false) else inventoryButton:SetHidden(true) end end)
+    ZO_PreHookHandler(ZO_CraftBag, 'OnEffectivelyShown', function() if IsFeatureEnabled() then craftBagButton:SetHidden(false) else craftBagButton:SetHidden(true) end end)
 end
