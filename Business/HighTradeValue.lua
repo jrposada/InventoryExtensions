@@ -27,6 +27,8 @@ local function IsHighTradeValue(itemLink)
 end
 
 local function FilterByHighTradeValue()
+    local isFilterEnable = false
+
     local function Filter(control)
         return control.isHighTradeValue
     end
@@ -58,27 +60,70 @@ local function FilterByHighTradeValue()
     if LF:IsFilterRegistered("IE_HighTradeValue", LF_INVENTORY) then
         LF:UnregisterFilter("IE_HighTradeValue", LF_INVENTORY)
         LF:UnregisterFilter("IE_HighTradeValue", LF_CRAFTBAG)
+        isFilterEnable = false
     else
         LF:RegisterFilter("IE_HighTradeValue", LF_INVENTORY, Filter)
         LF:RegisterFilter("IE_HighTradeValue", LF_CRAFTBAG, Filter)
+        isFilterEnable = true
     end
 
     LF:RequestUpdate(LF_INVENTORY)
+
+    return isFilterEnable
+end
+
+local function RefreshFilterByHighTradeValueButton(button)
+    local button = button
+    local texture = button:GetNamedChild("Texture")
+
+    if button.isFilterEnable then
+        texture:SetTexture(button.filterEnabled)
+    else
+        texture:SetTexture(button.filterDisabled)
+    end
+end
+
+local function CreateFilterButton(parent)
+    local parent = parent
+    local button = WINDOW_MANAGER:CreateControlFromVirtual("IE_HighTradeValue_Button", parent, "IE_Button")
+    local texture = button:GetNamedChild("Texture")
+    local highlight = button:GetNamedChild("Highlight")
+
+    texture:SetTexture("esoui/art/tradinghouse/tradinghouse_sell_tabicon_up.dds")
+    highlight:SetTexture("esoui/art/tradinghouse/tradinghouse_sell_tabicon_down.dds")
+
+    button:SetDimensions(28, 28)
+    button:ClearAnchors()
+    button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,110,-5)
+    button:SetClickSound("Click")
+
+    local function OnClicked(thisButton)
+        thisButton.isFilterEnable = FilterByHighTradeValue()
+        RefreshFilterByHighTradeValueButton(thisButton)
+    end
+
+    local function OnMouseEnter(thisButton)
+        highlight:SetHidden(false)
+    end
+
+    local function OnMouseExit()
+        highlight:SetHidden(true)
+    end
+
+    button:SetHandler("OnClicked", OnClicked)
+    button:SetHandler("OnMouseEnter", OnMouseEnter)
+    button:SetHandler("OnMouseExit", OnMouseExit)
+
+    button.isFilterEnable = false
+    button.filterEnabled = "esoui/art/tradinghouse/tradinghouse_sell_tabicon_down.dds"
+    button.filterDisabled = "esoui/art/tradinghouse/tradinghouse_sell_tabicon_up.dds"
+
+    return button
 end
 
 function IE.HighTradeValue.Init()
     -- Create filter button
-    local parent = ZO_PlayerInventory
-    local button = WINDOW_MANAGER:CreateControlFromVirtual("IE_HighTradeValue", parent, "ZO_DefaultButton")
-    button:SetWidth(110, 28)
-    button:SetText(IE.Loc("Test"))
-    button:ClearAnchors()
-    button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,0,-40)
-    button:SetClickSound("Click")
-    button:SetHandler("OnClicked", function() FilterByHighTradeValue() end)
-    button:SetState(BSTATE_NORMAL)
-    button:SetHidden(true)
-    button:SetDrawTier(2)
+    local inventoryButton = CreateFilterButton(ZO_PlayerInventory)
 
-    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if ATTS then button:SetHidden(false) end end)
+    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if ATTS then inventoryButton:SetHidden(false) end end)
 end

@@ -23,6 +23,8 @@ Infrastructure/Events.lua
 lang\en.lua
 lang\$(language).lua
 
+Ui/IE_Filter.xml
+
 Business/Junk.lua
 Business/HighTradeValue.lua
 Business/MoneyTracker.lua

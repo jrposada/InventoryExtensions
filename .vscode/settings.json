@@ -110,6 +110,7 @@
         "LibFilters3",
         "LF_INVENTORY",
         "LF_CRAFTBAG",
-        "BAG_VIRTUAL"
+        "BAG_VIRTUAL",
+        "CT_BUTTON"
     ]
 }
