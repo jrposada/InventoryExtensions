@@ -2,6 +2,7 @@
 ## Description: Automaticaly marks items in the inventory.
 ## Author: Panicida
 ## APIVersion: 100032
+## AddOnVersion: 020000
 ## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu LibLoadedAddons LibFilters-3.0
 ## SavedVariables: InventoryExtensions_Vars
 
