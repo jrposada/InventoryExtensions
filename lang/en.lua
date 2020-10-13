@@ -71,5 +71,6 @@ IE.Localization.en = {
     Settings_AutoJunk_HighTradeValue = "Ignore high trade value items",
     AllowJunk = "IE: Allow mark as junk",
     NotAllowJunk = "IE: Never mark as junk",
-    AutoJunk = "Auto junk"
+    AutoJunk = "Auto junk",
+    AllDone = "All done"
 }

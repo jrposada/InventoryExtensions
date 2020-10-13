@@ -98,7 +98,11 @@ local function InitAutoJunk()
             end
         end
 
-        if message ~= "" then CHAT_SYSTEM:AddMessage(messagePrefix..message) end
+        if message ~= "" then
+            CHAT_SYSTEM:AddMessage(messagePrefix..message)
+        else
+            CHAT_SYSTEM:AddMessage(messagePrefix.." "..IE.Loc("AllDone"))
+        end
     end
 
     local function AddIgnoreJunkOption(control)

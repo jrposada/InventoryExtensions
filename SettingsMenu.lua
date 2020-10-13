@@ -89,6 +89,9 @@ function IE.SettingsMenu.Init()
             text = IE.Loc("Settings_GlobalSettings")
         },
         {
+            type = "divider"
+        },
+        {
             type = "checkbox",
             name = IE.Loc("Settings_AutoJunk_HighTradeValue"),
             getFunc = function() return IsAnySalesAddonLoaded() and saveData.autoJunk.ignoredHighTradeValue end,
