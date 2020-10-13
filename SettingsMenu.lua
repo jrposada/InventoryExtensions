@@ -1,6 +1,7 @@
 local IE = InventoryExtensions
 local LAM = LibAddonMenu2
 local LS = LibSets
+local ATTS = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
 
 IE.SettingsMenu = {}
 
@@ -74,11 +75,20 @@ function IE.SettingsMenu.Init()
         type = "panel",
         name = "Inventory Extensions",
         author = "Panicida",
+        registerForRefresh = true
     }
     local optionsData = {
         {
             type = "description",
             text = IE.Loc("Settings_GlobalSettings")
+        },
+        {
+            type = "checkbox",
+            name = IE.Loc("Settings_AutoJunk_HighTradeValue"),
+            getFunc = function() return ATTS ~= nil and saveData.autoJunk.ignoredHighTradeValue end,
+            setFunc = function(value) saveData.autoJunk.ignoredHighTradeValue = value end,
+            disabled = function() return ATTS == nil end,
+            warning = IE.Loc("Settings_MerchantAddonNeeded")
         },
         {
             type = "submenu",
@@ -447,8 +457,10 @@ function IE.SettingsMenu.Init()
         {
             type = "checkbox",
             name = IE.Loc("Settings_HighTradeValue"),
-            getFunc = function() return saveData.highTradeValue.enabled end,
-            setFunc = function(value) saveData.highTradeValue.enabled = value end
+            getFunc = function() return ATTS ~= nil and saveData.highTradeValue.enabled end,
+            setFunc = function(value) saveData.highTradeValue.enabled = value end,
+            disabled = function() return ATTS == nil end,
+            warning = IE.Loc("Settings_MerchantAddonNeeded")
         },
         {
             type = "slider",
@@ -457,7 +469,8 @@ function IE.SettingsMenu.Init()
             setFunc = function(value) saveData.highTradeValue.days = value end,
             max = 30,
             min = 0,
-            step = 1
+            step = 1,
+            disabled = function() return ATTS == nil or (not saveData.highTradeValue.enabled) end
         },
         {
             type = "slider",
@@ -466,7 +479,8 @@ function IE.SettingsMenu.Init()
             setFunc = function(value) saveData.highTradeValue.minIncome = value end,
             max = 250000,
             min = 0,
-            step = 1
+            step = 1,
+            disabled = function() return ATTS == nil or (not saveData.highTradeValue.enabled) end
         }
     }
 

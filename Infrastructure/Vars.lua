@@ -6,6 +6,7 @@ InventoryExtensions = {
     Loc = function(var) return InventoryExtensions.Localization.en[var] or var end,
     DefaultVars = {
         autoJunk = {
+            ignoredHighTradeValue = true,
             weaponsArmorJewelry = {
                 enabled = false,
                 jewelryQuality = 1,

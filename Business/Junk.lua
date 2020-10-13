@@ -34,13 +34,16 @@ local function InitAutoJunk()
         end
 
         local function ItemShouldBeJunk(bagId, slotId)
+            local IsHighTradeValue = IE.HighTradeValue.IsHighTradeValue
             local _, stackCount, sellPrice, _, _, equipType, itemStyle, quality = GetItemInfo(bagId, slotId)
             if stackCount < 1 then return false end
             local itemLink = GetItemLink(bagId, slotId)
             local itemType, specializedItemType = GetItemLinkItemType(itemLink)
             local itemInstanceId = GetItemInstanceId(bagId, slotId)
+            local isHighTradeValue = IsHighTradeValue(itemLink)
 
             if IE.SavedVars.autoJunk.ignored[itemInstanceId] ~= nil then return false -- Ignored items
+            elseif IE.SavedVars.autoJunk.ignoredHighTradeValue and isHighTradeValue then return false -- Ignored high trade value items
             elseif IE.SavedVars.autoJunk.miscellaneous.trash and itemType == ITEMTYPE_TRASH then return true -- Trash
             elseif IE.SavedVars.autoJunk.miscellaneous.treasures and itemType == ITEMTYPE_TREASURE then return true -- Treasures
             elseif IE.SavedVars.autoJunk.miscellaneous.monsterTropies and itemType == ITEMTYPE_COLLECTIBLE and specializedItemType == SPECIALIZED_ITEMTYPE_COLLECTIBLE_MONSTER_TROPHY then return true -- Monster trophy

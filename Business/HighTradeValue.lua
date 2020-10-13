@@ -1,5 +1,4 @@
 local IE = InventoryExtensions
-local LIBLA = LibLoadedAddons
 local ATTS = (ArkadiusTradeTools or nil) and ArkadiusTradeTools.Modules.Sales
 local LF = LibFilters3
 
@@ -7,7 +6,7 @@ IE.HighTradeValue = {}
 
 local SECONDS_IN_DAY = 60 * 60 * 24
 
-local function IsHighTradeValue(itemLink)
+function IE.HighTradeValue.IsHighTradeValue(itemLink)
     local fromTimeStamp = GetTimeStamp() - IE.SavedVars.highTradeValue.days * SECONDS_IN_DAY
     local salesInfo = ATTS:GetItemSalesInformation(itemLink, fromTimeStamp)[itemLink]
 
@@ -46,6 +45,7 @@ local function FilterByHighTradeValue()
         end
     end
 
+    local IsHighTradeValue = IE.HighTradeValue.IsHighTradeValue
     local bagCache = SHARED_INVENTORY:GenerateFullSlotData(FilterUnwantedItems, BAG_BACKPACK, BAG_VIRTUAL)
     for index, data in pairs(bagCache) do
         local bagId = data.bagId
@@ -103,6 +103,7 @@ local function CreateFilterButton(parent)
     button:ClearAnchors()
     button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,110,-5)
     button:SetClickSound("Click")
+    button:SetHidden(true)
 
     local function OnClicked(thisButton)
         local isFilterEnable = FilterByHighTradeValue()
@@ -129,11 +130,13 @@ end
 
 function IE.HighTradeValue.Init()
     -- Create filter button
-    local inventoryButton = CreateFilterButton(ZO_PlayerInventory)
-    local craftBagButton = CreateFilterButton(ZO_CraftBag)
-    IE.UI.Controls.InventoryButton = inventoryButton
-    IE.UI.Controls.CraftBagButton = craftBagButton
+    if ATTS then
+        local inventoryButton = CreateFilterButton(ZO_PlayerInventory)
+        local craftBagButton = CreateFilterButton(ZO_CraftBag)
+        IE.UI.Controls.InventoryButton = inventoryButton
+        IE.UI.Controls.CraftBagButton = craftBagButton
 
-    ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if ATTS then inventoryButton:SetHidden(false) end end)
-    ZO_PreHookHandler(ZO_CraftBag, 'OnEffectivelyShown', function() if ATTS then craftBagButton:SetHidden(false) end end)
+        ZO_PreHookHandler(ZO_PlayerInventory, 'OnEffectivelyShown', function() if IE.SavedVars.highTradeValue.enabled then inventoryButton:SetHidden(false) else inventoryButton:SetHidden(true) end end)
+        ZO_PreHookHandler(ZO_CraftBag, 'OnEffectivelyShown', function() if IE.SavedVars.highTradeValue.enabled then craftBagButton:SetHidden(false) else craftBagButton:SetHidden(true) end end)
+    end
 end
