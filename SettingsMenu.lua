@@ -473,7 +473,7 @@ function IE.SettingsMenu.Init()
         },
         {
             type = "slider",
-            name = IE.Loc("Settings_HighTradeValueDays"),
+            name = IE.Loc("Settings_PotentialMarketTimeInterval"),
             getFunc = function() return saveData.highTradeValue.days end,
             setFunc = function(value) saveData.highTradeValue.days = value end,
             max = 30,
@@ -483,12 +483,12 @@ function IE.SettingsMenu.Init()
         },
         {
             type = "slider",
-            name = IE.Loc("Settings_HighTradeValueMinValue"),
-            getFunc = function() return saveData.highTradeValue.minIncome end,
-            setFunc = function(value) saveData.highTradeValue.minIncome = value end,
+            name = IE.Loc("Settings_PotentialMarketValue"),
+            getFunc = function() return saveData.highTradeValue.minPotentialMarketValue end,
+            setFunc = function(value) saveData.highTradeValue.minPotentialMarketValue = value end,
             max = 250000,
             min = 0,
-            step = 1,
+            step = 1000,
             disabled = function() return not IsAnySalesAddonLoaded() or (not saveData.highTradeValue.enabled) end
         }
     }

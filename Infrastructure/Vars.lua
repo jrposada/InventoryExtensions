@@ -66,7 +66,7 @@ InventoryExtensions = {
         highTradeValue = {
             enabled = true,
             days = 10,
-            minIncome = 50
+            minPotentialMarketValue = 150000
         },
         dialyGoldIncomeTracker = true,
         dialyGoldIncome = 0

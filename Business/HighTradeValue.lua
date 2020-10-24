@@ -45,7 +45,7 @@ function IE.HighTradeValue.IsHighTradeValue(itemLink)
         return false
     end
 
-    if overallTransactionValue >= IE.SavedVars.highTradeValue.minIncome then
+    if overallTransactionValue >= IE.SavedVars.highTradeValue.minPotentialMarketValue then
         return true
     else
         return false
