@@ -126,9 +126,9 @@ local function CreateFilterButton(parent)
     texture:SetTexture("esoui/art/tradinghouse/tradinghouse_sell_tabicon_up.dds")
     highlight:SetTexture("esoui/art/tradinghouse/tradinghouse_sell_tabicon_down.dds")
 
-    button:SetDimensions(28, 28)
+    button:SetDimensions(32, 32)
     button:ClearAnchors()
-    button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,110,-5)
+    button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,105,-5)
     button:SetClickSound("Click")
     button:SetHidden(true)
 

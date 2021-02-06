@@ -132,7 +132,7 @@ local function InitAutoJunk()
     -- Initialize UI
     local parent = ZO_PlayerInventory
     local button = WINDOW_MANAGER:CreateControlFromVirtual("IE_AutoJunk", parent, "ZO_DefaultButton")
-    button:SetWidth(110, 28)
+    button:SetWidth(110, 32)
     button:SetText(IE.Loc("AutoJunk"))
     button:ClearAnchors()
     button:SetAnchor(BOTTOMLEFT,parent,TOPLEFT,0,-5)

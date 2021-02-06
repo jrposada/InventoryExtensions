@@ -1,6 +1,6 @@
 InventoryExtensions = {
     name = "InventoryExtensions",
-    version = 1,
+    version = 2,
     varsVersion = 1,
     Localization = {},
     Loc = function(var) return InventoryExtensions.Localization.en[var] or var end,
@@ -67,6 +67,9 @@ InventoryExtensions = {
             enabled = true,
             days = 10,
             minPotentialMarketValue = 150000
+        },
+        containers = {
+            pvp = true
         },
         dialyGoldIncomeTracker = true,
         dialyGoldIncome = 0

@@ -22,6 +22,7 @@ local function OnAddOnLoaded(eventCode, addonName)
     IE.MoneyTracker.Init()
     IE.SettingsMenu.Init()
     IE.HighTradeValue.Init()
+    IE.Containers.Init()
     -- IE.MarkItem.Init()
     IE.Events.Init()
 

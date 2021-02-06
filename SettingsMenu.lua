@@ -490,7 +490,16 @@ function IE.SettingsMenu.Init()
             min = 0,
             step = 1000,
             disabled = function() return not IsAnySalesAddonLoaded() or (not saveData.highTradeValue.enabled) end
-        }
+        },
+        {
+            type = "divider"
+        },
+        {
+            type = "checkbox",
+            name = IE.Loc("Settings_PvpContainers"),
+            getFunc = function() return saveData.containers.pvp end,
+            setFunc = function(value) saveData.containers.pvp = value end
+        },
     }
 
     LAM:RegisterAddonPanel(panelName, panelData)

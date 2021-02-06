@@ -1,8 +1,8 @@
 ## Title: Inventory Extensions
 ## Description: Automaticaly marks items in the inventory.
 ## Author: Panicida
-## APIVersion: 100032
-## AddOnVersion: 020000
+## APIVersion: 100033
+## AddOnVersion: 020001
 ## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu LibLoadedAddons LibFilters-3.0
 ## SavedVariables: InventoryExtensions_Vars
 
@@ -30,6 +30,7 @@ Business/Junk.lua
 Business/HighTradeValue.lua
 Business/MoneyTracker.lua
 Business/MarkItem.lua
+Business/Containers.lua
 
 SettingsMenu.lua
 Main.lua
