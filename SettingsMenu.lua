@@ -496,7 +496,22 @@ function IE.SettingsMenu.Init()
                     name = IE.Loc("Settings_Recipes"),
                     getFunc = function() return saveData.deposit.recipes end,
                     setFunc = function(value) saveData.deposit.recipes = value end
-                }
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_Gold"),
+                    getFunc = function() return saveData.deposit.gold.enabled end,
+                    setFunc = function(value) saveData.deposit.gold.enabled = value end
+                },
+                {
+                    type = "slider",
+                    name = IE.Loc("Settings_KeepGold"),
+                    getFunc = function() return saveData.deposit.gold.keep end,
+                    setFunc = function(value) saveData.deposit.gold.keep = value end,
+                    max = 100000,
+                    min = 0,
+                    step = 250,
+                },
             }
         },
         {

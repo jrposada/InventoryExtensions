@@ -1,6 +1,7 @@
 local IE = InventoryExtensions
 local LR = LibResearch
 local UT = UnknownTracker
+local CurrencyTypes = IE.Constants.CurrencyTypes
 
 IE.Deposit = {}
 
@@ -144,6 +145,12 @@ function IE.Deposit.Init()
                     break
                 end
             end
+        end
+        local currentGold = GetCurrencyAmount(CURT_MONEY, CURRENCY_LOCATION_CHARACTER)
+        if IE.SavedVars.deposit.gold.enabled and currentGold > IE.SavedVars.deposit.gold.keep then
+            local goldToDeposit = currentGold - IE.SavedVars.deposit.gold.keep
+            TransferCurrency(CURT_MONEY, goldToDeposit, CURRENCY_LOCATION_CHARACTER, CURRENCY_LOCATION_BANK)
+            message = message..zo_strformat(" |t18:18:<<2>>|t <<t:1>>", goldToDeposit, CurrencyTypes[CURT_MONEY])
         end
 
         if message ~= "" then

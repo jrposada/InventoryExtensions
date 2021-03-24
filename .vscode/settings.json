@@ -161,6 +161,10 @@
         "UnknownTracker",
         "GetNumCharacters",
         "GetCharacterInfo",
-        "GetCurrentCharacterId"
+        "GetCurrentCharacterId",
+        "CURRENCY_LOCATION_CHARACTER",
+        "GetCurrencyAmount",
+        "CURRENCY_LOCATION_BANK",
+        "TransferCurrency"
     ]
 }

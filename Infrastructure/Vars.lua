@@ -78,7 +78,11 @@ InventoryExtensions = {
             researchable = false,
             surveyMaps = true,
             glyphs = true,
-            recipes = true
+            recipes = true,
+            gold = {
+                enabled = true,
+                keep = 1000
+            }
         },
         withdraw = {
             surveyMaps = true
