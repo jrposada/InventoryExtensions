@@ -464,6 +464,57 @@ function IE.SettingsMenu.Init()
             type = "divider"
         },
         {
+            type = "submenu",
+            name = IE.Loc("Settings_Deposit"),
+            controls = {
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_Intrincate"),
+                    getFunc = function() return saveData.deposit.intrincate end,
+                    setFunc = function(value) saveData.deposit.intrincate = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_Researchable"),
+                    getFunc = function() return saveData.deposit.researchable end,
+                    setFunc = function(value) saveData.deposit.researchable = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_SurveyMaps"),
+                    getFunc = function() return saveData.deposit.surveyMaps end,
+                    setFunc = function(value) saveData.deposit.surveyMaps = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_Glyphs"),
+                    getFunc = function() return saveData.deposit.glyphs end,
+                    setFunc = function(value) saveData.deposit.glyphs = value end
+                },
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_Recipes"),
+                    getFunc = function() return saveData.deposit.recipes end,
+                    setFunc = function(value) saveData.deposit.recipes = value end
+                }
+            }
+        },
+        {
+            type = "submenu",
+            name = IE.Loc("Settings_Withdraw"),
+            controls = {
+                {
+                    type = "checkbox",
+                    name = IE.Loc("Settings_SurveyMaps"),
+                    getFunc = function() return saveData.withdraw.surveyMaps end,
+                    setFunc = function(value) saveData.withdraw.surveyMaps = value end
+                }
+            }
+        },
+        {
+            type = "divider"
+        },
+        {
             type = "checkbox",
             name = IE.Loc("Settings_HighTradeValue"),
             getFunc = function() return IsAnySalesAddonLoaded() and saveData.highTradeValue.enabled end,

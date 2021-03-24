@@ -144,6 +144,23 @@
         "CURT_STYLE_STONES",
         "CURT_TELVAR_STONES",
         "CURT_UNDAUNTED_KEYS",
-        "CURT_WRIT_VOUCHERS"
+        "CURT_WRIT_VOUCHERS",
+        "IsESOPlusSubscriber",
+        "BAG_SUBSCRIBER_BANK",
+        "ZO_Alert",
+        "UI_ALERT_CATEGORY_ALERT",
+        "SI_INVENTORY_ERROR_BANK_FULL",
+        "SOUNDS",
+        "SPECIALIZED_ITEMTYPE_TROPHY_SURVEY_REPORT",
+        "GetWorldName",
+        "ZO_PlayerBank",
+        "ITEMTYPE_GLYPH_ARMOR",
+        "ITEMTYPE_GLYPH_JEWELRY",
+        "ITEMTYPE_GLYPH_WEAPON",
+        "ITEMTYPE_RECIPE",
+        "UnknownTracker",
+        "GetNumCharacters",
+        "GetCharacterInfo",
+        "GetCurrentCharacterId"
     ]
 }

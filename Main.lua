@@ -12,10 +12,19 @@ local function OnAddOnLoaded(eventCode, addonName)
 	EM:UnregisterForEvent(IE.name.."_Event", EVENT_ADD_ON_LOADED)
 
     -- Load saved variables
-    IE.SavedVars = ZO_SavedVars:NewAccountWide(IE.name.."_Vars", IE.varsVersion, nil, IE.DefaultVars)
+    IE.SavedVars = ZO_SavedVars:NewAccountWide(IE.name.."_Vars", IE.varsVersion, nil, IE.DefaultVars, GetWorldName())
 
     -- Initialize addons
     LibFilters:InitializeLibFilters()
+
+    local numChars = GetNumCharacters()
+    for index = 1, numChars do
+        local name, _, _, _, _, _, id, _ = GetCharacterInfo(index)
+        if id == GetCurrentCharacterId() then
+            IE.CurrentCharacterName = name
+            break
+        end
+    end
 
     -- Initialize stuff
     IE.Junk.Init()
@@ -23,6 +32,7 @@ local function OnAddOnLoaded(eventCode, addonName)
     IE.SettingsMenu.Init()
     IE.HighTradeValue.Init()
     IE.Containers.Init()
+    IE.Deposit.Init()
     -- IE.MarkItem.Init()
     IE.Events.Init()
 

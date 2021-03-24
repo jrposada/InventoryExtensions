@@ -31,6 +31,7 @@ Business/HighTradeValue.lua
 Business/MoneyTracker.lua
 Business/MarkItem.lua
 Business/Containers.lua
+Business/Deposit.lua
 
 SettingsMenu.lua
 Main.lua

@@ -72,7 +72,17 @@ InventoryExtensions = {
             pvp = true
         },
         dialyGoldIncomeTracker = true,
-        dialyGoldIncome = 0
+        dialyGoldIncome = 0,
+        deposit = {
+            intrincate = true,
+            researchable = false,
+            surveyMaps = true,
+            glyphs = true,
+            recipes = true
+        },
+        withdraw = {
+            surveyMaps = true
+        }
     },
     PlayerInventoryLists = {
         [ZO_PlayerInventoryList] = true,
