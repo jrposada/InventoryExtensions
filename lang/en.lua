@@ -81,6 +81,7 @@ IE.Localization.en = {
     Settings_Gold = "Gold",
     Settings_KeepGold = "Gold to keep",
     StoreError = "Error storing items",
+    WithdrawError = "Error withdrawing items",
     DepositButtonText = "Deposit",
     WithdrawButtonText = "Withdraw",
     Deposit = "Deposit",

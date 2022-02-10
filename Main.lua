@@ -1,7 +1,6 @@
 -- First, we create a namespace for our addon by declaring a top-level table that will hold everything else.
 local IE = InventoryExtensions
 local EM = EVENT_MANAGER
-local LIBLA = LibLoadedAddons
 local LibFilters = LibFilters3
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
@@ -35,9 +34,6 @@ local function OnAddOnLoaded(eventCode, addonName)
     IE.Deposit.Init()
     -- IE.MarkItem.Init()
     IE.Events.Init()
-
-    -- Register addon in loaded addons lib
-    LIBLA:RegisterAddon(IE.name, IE.version)
 end
 
 -- Finally, we'll register our event handler function to be called when the proper event occurs.

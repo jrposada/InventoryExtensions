@@ -3,7 +3,7 @@
 ## Author: Panicida
 ## APIVersion: 100033
 ## AddOnVersion: 020001
-## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu LibLoadedAddons LibFilters-3.0
+## DependsOn: LibAddonMenu-2.0 LibResearch LibSets LibCustomMenu LibFilters-3.0
 ## SavedVariables: InventoryExtensions_Vars
 
 ; DISCLAIMER:
