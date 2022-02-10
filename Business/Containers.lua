@@ -9,10 +9,15 @@ local pvpContainers = {
     items = {
         [2385654930] = true, -- Rewards for the Worthy (blue)
         [1300143049] = true, -- Battlemaster Rivyn's Reward Box (purple)
+        [4109939254] = true, -- Transmutation Geode (white)
+        [3395908003] = true, -- Transmutation Geode (purple)
+        [1976142150] = true, -- Uncracked Transmutation Geode (gold)
     },
     en = {
         ["Rewards for the Worthy"] = true,
-        ["Battlemaster Rivyn's Reward Box"] = true
+        ["Battlemaster Rivyn's Reward Box"] = true,
+        ["Transmutation Geode"] = true,
+        ["Uncracked Transmutation Geode"] = true,
     }
 }
 
@@ -30,30 +35,30 @@ local function OnLootUpdated(event)
     local lootInfo = GetLootTargetInfo()
 
     if pvpContainers.en[lootInfo] then
-        local messagePrefix = "[IE:LootContainer]"
-        local message = ""
+        local chatMessage = ChatMessage:New("[IE:LootContainer] ")
+        local didSomething = false
 
         -- Get currencies
         for currencyType, currencyTexure in pairs(currencyTypes) do
+            didSomething = true
             local currency = GetLootCurrency(currencyType)
             -- TODO: check currency cap
             if currency ~= 0 then
-                message=message..zo_strformat(" |t18:18:<<2>>|t <<t:1>>", currency, currencyTexure)
+                chatMessage:AddMessage(zo_strformat(" |t18:18:<<2>>|t <<t:1>>", currency, currencyTexure))
             end
         end
 
         -- Get items
         local numItems=GetNumLootItems()
         for i = 1, numItems do
+            didSomething = true
             local lootId, name, texture, count, quality, value, isQuest, stolen, lootType = GetLootItemInfo(i)
             local link = GetLootItemLink(lootId)
-            message=message..zo_strformat(" |t18:18:<<2>>|t <<t:1>>", link, texture)
+            chatMessage:AddMessage(zo_strformat(" |t18:18:<<2>>|t <<t:1>>", link, texture))
         end
 
-        if message ~= "" then
-            CHAT_SYSTEM:AddMessage(messagePrefix..message)
-        else
-            CHAT_SYSTEM:AddMessage(messagePrefix.." "..IE.Loc("AllDone"))
+        if not didSomething then
+            chatMessage:AddMessage(IE.Loc("AllDone"))
         end
 
         -- Actually loot
@@ -148,5 +153,5 @@ function IE.Containers.Init()
 
     -- Hook to loot window
 	ZO_PreHook(SYSTEMS:GetObject("loot"), "UpdateLootWindow", OnLootUpdated)
-    -- Debug()
+    Debug()
 end
