@@ -7,7 +7,7 @@ IE.Junk = {}
 local function InitAutoJunk()
     local function RefreshAutoJunkUi()
         if not IE.Events.isBankOpen then
-            local button = IE.UI.Controls.AutoStoreButton
+            local button = IE.UI.Controls.AutoJunkButton
             button:SetHidden(false)
         end
     end
@@ -84,25 +84,27 @@ local function InitAutoJunk()
         end
 
         local bagCache = SHARED_INVENTORY:GenerateFullSlotData(FilterUnwantedItems, BAG_BACKPACK)
-        local messagePrefix = "[IE:Junk]"
-        local message = ""
+        local chatMessage = ChatMessage:New("[IE:Junk] ")
+        local didSomething = false
         for index, data in pairs(bagCache) do
             if ItemShouldBeJunk(data.bagId, data.slotIndex) then
+                didSomething = true
                 SetItemIsJunk(data.bagId, data.slotIndex, true)
                 local link = GetItemLink(data.bagId, data.slotIndex)
                 local texture = GetItemLinkIcon(link)
-                message = message..zo_strformat(" |t18:18:<<2>>|t <<t:1>>", link, texture)
+                local message = zo_strformat(" |t18:18:<<2>>|t <<t:1>>", link, texture)
                 if data.stackCount ~=1 then
                     message = message..zo_strformat(" x <<1>>",data.stackCount)
                 end
+                chatMessage:AddMessage(message)
             end
         end
 
-        if message ~= "" then
-            CHAT_SYSTEM:AddMessage(messagePrefix..message)
-        else
-            CHAT_SYSTEM:AddMessage(messagePrefix.." "..IE.Loc("AllDone"))
+        if not didSomething then
+            chatMessage:AddMessage(IE.Loc("AllDone"))
         end
+
+        chatMessage:Submit()
     end
 
     local function AddIgnoreJunkOption(control)
@@ -142,7 +144,7 @@ local function InitAutoJunk()
     button:SetHidden(true)
     button:SetDrawTier(2)
     local controls = IE.UI.Controls
-    controls.AutoStoreButton = button
+    controls.AutoJunkButton = button
 
     -- Register for events
     ZO_PreHook("ZO_InventorySlot_ShowContextMenu", function(control) AddIgnoreJunkOption(control) end)

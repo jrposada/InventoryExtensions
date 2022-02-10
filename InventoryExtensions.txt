@@ -21,6 +21,7 @@ Infrastructure/Utils.lua
 Infrastructure/Controls.lua
 Infrastructure/Events.lua
 Infrastructure/Constants.lua
+Infrastructure/ChatMessage.lua
 
 lang\en.lua
 lang\$(language).lua
@@ -28,6 +29,7 @@ lang\$(language).lua
 Ui/IE_Filter.xml
 
 Business/Junk.lua
+Business/Bind.lua
 Business/HighTradeValue.lua
 Business/MoneyTracker.lua
 Business/MarkItem.lua

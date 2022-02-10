@@ -177,11 +177,12 @@ function IE.Deposit.Init()
             return false
         end
 
-        local bagCache = SHARED_INVENTORY:GenerateFullSlotData(FilterUnwantedItems, BAG_BANK)
-        local messagePrefix = "[IE:"..IE.Loc("Withdraw")..")"
+        local bagCache = SHARED_INVENTORY:GenerateFullSlotData(function () return true end, BAG_BANK, BAG_SUBSCRIBER_BANK)
+        local messagePrefix = "[IE:"..IE.Loc("Withdraw").."]"
         local message = ""
         for index, data in pairs(bagCache) do
             if ItemShouldBeWithdraw(data.bagId, data.slotIndex) then
+                IE.LogLater(GetItemLink(data.bagId, data.slotIndex))
                 if TryPlaceItemInEmptySlot(data.bagId, data.slotIndex, BAG_BACKPACK, data.stackCount, usedEmptySlots) then
                     local link = GetItemLink(data.bagId, data.slotIndex)
                     local texture = GetItemLinkIcon(link)
@@ -190,7 +191,7 @@ function IE.Deposit.Init()
                         message = message..zo_strformat(" x <<1>>",data.stackCount)
                     end
                 else
-                    IE.LogLater(IE.Loc("StoreError"))
+                    IE.LogLater(IE.Loc("WithdrawError"))
                     break
                 end
             end

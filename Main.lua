@@ -27,6 +27,7 @@ local function OnAddOnLoaded(eventCode, addonName)
 
     -- Initialize stuff
     IE.Junk.Init()
+    IE.Bind.Init()
     IE.MoneyTracker.Init()
     IE.SettingsMenu.Init()
     IE.HighTradeValue.Init()
