@@ -170,6 +170,21 @@
         "IsItemLinkSetCollectionPiece",
         "IsItemSetCollectionPieceUnlocked",
         "BindItem",
-        "ZO_Object"
+        "ZO_Object",
+        "SPECIALIZED_ITEMTYPE_CONTAINER",
+        "EVENT_CURRENCY_UPDATE",
+        "INVENTORY_WALLET",
+        "GetControl",
+        "FORMAT_EXTRA_OPTIONS",
+        "ZO_Currency_FormatKeyboard",
+        "ZO_CURRENCY_FORMAT_AMOUNT_ICON",
+        "ZO_Tooltips_ShowTextTooltip",
+        "ZO_Tooltips_HideTextTooltip",
+        "TOP",
+        "RIGHT",
+        "ZO_CURRENCY_FORMAT_PARENTHETICAL_AMOUNT",
+        "ZO_CurrencyControl_FormatAndLocalizeCurrency",
+        "CURRENCY_CHANGE_REASON_PLAYER_INIT",
+        "CURRENCY_CHANGE_REASON_BANK_DEPOSIT"
     ]
 }

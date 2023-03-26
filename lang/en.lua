@@ -89,5 +89,6 @@ IE.Localization.en = {
     AllowJunk = "IE: Allow mark as junk",
     NotAllowJunk = "IE: Never mark as junk",
     AutoJunk = "Auto junk",
+    AutoBind = "Bind All",
     AllDone = "All done"
 }
