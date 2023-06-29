@@ -1,4 +1,4 @@
-local IE = InventoryExtensions
+local IE = INVENTORY_EXTENSIONS
 local EM = EVENT_MANAGER
 
 function IE.CallLater(name,ms,func,opt1,opt2)

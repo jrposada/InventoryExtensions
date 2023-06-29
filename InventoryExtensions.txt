@@ -20,21 +20,16 @@ vars.lua
 
 Infrastructure/Utils.lua
 Infrastructure/Controls.lua
-Infrastructure/Events.lua
 Infrastructure/ChatMessage.lua
-
 
 src/infrastructure/controls.lua
 
 lang\en.lua
 lang\$(language).lua
 
-
-
-Business/Bind.lua
-
-
 src/modules/currency-tracker.lua
+src/modules/auto-bind.lua
+src/modules/ttc-price.lua
 
 settings-menu.lua
 main.lua

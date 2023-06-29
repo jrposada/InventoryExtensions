@@ -1,4 +1,4 @@
-local IE = InventoryExtensions
+local IE = INVENTORY_EXTENSIONS
 IE.UI = {
     Controls = {}
 }

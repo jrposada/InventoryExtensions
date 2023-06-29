@@ -1,5 +1,5 @@
 -- First, we create a namespace for our addon by declaring a top-level table that will hold everything else.
-local IE = InventoryExtensions
+local IE = INVENTORY_EXTENSIONS
 local EM = EVENT_MANAGER
 
 -- Then we create an event handler function which will be called when the "addon loaded" event
@@ -24,12 +24,10 @@ local function OnAddOnLoaded(eventCode, addonName)
 
     -- Initialize stuff
     IE_CURRENCY_TRACKER.Init()
+    IE_AUTO_BIND.Init()
+    IE_TTC_PRICE.Init()
 
-    -- IE_SETTINGS_MENU.Init()
-
-    -- IE.Junk.Init()
-    IE.Bind.Init()
-    IE.Events.Init()
+    IE_SETTINGS_MENU.Init()
 end
 
 -- Finally, we'll register our event handler function to be called when the proper event occurs.

@@ -185,6 +185,20 @@
         "ZO_CURRENCY_FORMAT_PARENTHETICAL_AMOUNT",
         "ZO_CurrencyControl_FormatAndLocalizeCurrency",
         "CURRENCY_CHANGE_REASON_PLAYER_INIT",
-        "CURRENCY_CHANGE_REASON_BANK_DEPOSIT"
+        "CURRENCY_CHANGE_REASON_BANK_DEPOSIT",
+        "PLAYER_INVENTORY",
+        "ITEM_SLOT_CURRENCY_OPTIONS",
+        "ZO_CurrencyControl_SetSimpleCurrency",
+        "TamrielTradeCentrePrice",
+        "ITEM_BACKPACK_SLOT_CURRENCY_OPTIONS",
+        "ZO_ScrollList_Initialize",
+        "ZO_ScrollList_AddDataType",
+        "ZO_ScrollList_AddResizeOnScreenResize",
+        "ZO_PostHook",
+        "INTERFACE_COLOR_TYPE_TEXT_COLORS",
+        "INTERFACE_TEXT_COLOR_ANNOUNCEMENTS",
+        "GetInterfaceColor",
+        "ZO_ColorDef",
+        "ZO_PlayerBankBackpack"
     ]
 }

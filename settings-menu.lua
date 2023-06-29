@@ -1,4 +1,4 @@
-local IE = InventoryExtensions
+local IE = INVENTORY_EXTENSIONS
 local LAM = LibAddonMenu2
 
 IE_SETTINGS_MENU = {}
@@ -21,6 +21,20 @@ function IE_SETTINGS_MENU.Init()
         {
             type = "divider"
         },
+        {
+            type = "checkbox",
+            name = IE.Loc("Settings_AutoBind"),
+            getFunc = function() return saveData.autoBind.enabled end,
+            setFunc = function(value) IE_AUTO_BIND.Enable(value) end
+        },
+        {
+            type = "checkbox",
+            name = IE.Loc("Settings_TtcPrice"),
+            getFunc = function() return saveData.ttcPrice.enabled end,
+            setFunc = function(value) IE_TTC_PRICE.Enable(value) end,
+            requiresReload = true
+        },
+         
     }
 
     LAM:RegisterAddonPanel(panelName, panelData)

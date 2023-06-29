@@ -1,6 +1,8 @@
 IE_CURRENCY_TRACKER = {}
 
 function IE_CURRENCY_TRACKER.Init()
+    local savedVars = INVENTORY_EXTENSIONS.SavedVars
+
     local function OnCurrencyUpdate(_, _currencyType_, _currencyLocation_, _newAmount_, _oldAmount_, _reason_, _reasonSupplementaryInfo_)
         local currencyType, newAmount, oldAmount, reason = _currencyType_, _newAmount_, _oldAmount_, _reason_
         local netIncome = newAmount - oldAmount
@@ -11,17 +13,14 @@ function IE_CURRENCY_TRACKER.Init()
             or reason == CURRENCY_CHANGE_REASON_BANK_DEPOSIT
         then return end
 
-        local vars = IE.SavedVars
-        vars.currencyTracker[currencyType] = (vars.currencyTracker[currencyType] or 0) + netIncome
+        savedVars.currencyTracker[currencyType] = (savedVars.currencyTracker[currencyType] or 0) + netIncome
     end
-
-    local vars = IE.SavedVars
 
     -- Check if we need to reset
 	local day=math.floor(GetDiffBetweenTimeStamps(GetTimeStamp(),1517464800)/86400)
-    if (vars.day ~= day) then
-        vars.day = day
-        vars.currencyTracker = {}
+    if (savedVars.day ~= day) then
+        savedVars.day = day
+        savedVars.currencyTracker = {}
     end
 
     -- Override default list setup
@@ -30,7 +29,7 @@ function IE_CURRENCY_TRACKER.Init()
     local SetUpEntry = function(self, control, data)
         baseSetUpEntry(self, control, data)
 
-        local value = vars.currencyTracker[data.currencyType] or 0
+        local value = savedVars.currencyTracker[data.currencyType] or 0
         local text = ZO_CurrencyControl_FormatAndLocalizeCurrency(
             value
         )
@@ -50,7 +49,7 @@ function IE_CURRENCY_TRACKER.Init()
     end
     INVENTORY_WALLET.SetUpEntry = SetUpEntry
 
-    EM:RegisterForEvent(IE.name .. "CurrencyTraker", EVENT_CURRENCY_UPDATE, OnCurrencyUpdate)
+    EVENT_MANAGER:RegisterForEvent(INVENTORY_EXTENSIONS.name .. "CurrencyTraker", EVENT_CURRENCY_UPDATE, OnCurrencyUpdate)
 end
 
 -- local function DebugCurrencyChangeReasonName(reason)
