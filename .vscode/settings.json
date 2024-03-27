@@ -199,6 +199,10 @@
         "INTERFACE_TEXT_COLOR_ANNOUNCEMENTS",
         "GetInterfaceColor",
         "ZO_ColorDef",
-        "ZO_PlayerBankBackpack"
+        "ZO_PlayerBankBackpack",
+        "LibPanicida"
+    ],
+    "cSpell.words": [
+        "Panicida"
     ]
 }

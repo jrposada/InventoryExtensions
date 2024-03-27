@@ -1,9 +1,9 @@
 ## Title: Inventory Extensions
-## Description: Automaticaly marks items in the inventory.
+## Description: Automatically marks items in the inventory.
 ## Author: Panicida
 ## APIVersion: 100033
 ## AddOnVersion: 020001
-;## DependsOn: LibAddonMenu-2.0
+## DependsOn: LibPanicida LibAddonMenu-2.0
 ## SavedVariables: InventoryExtensions_Vars
 
 ; DISCLAIMER:
@@ -21,8 +21,6 @@ vars.lua
 Infrastructure/Utils.lua
 Infrastructure/Controls.lua
 Infrastructure/ChatMessage.lua
-
-src/infrastructure/controls.lua
 
 lang\en.lua
 lang\$(language).lua

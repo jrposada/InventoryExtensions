@@ -36,16 +36,16 @@ function IE_CURRENCY_TRACKER.Init()
         if value > 0 then text = "|c32CD32"..text.."|r"
         elseif value < 0 then text = "|cB21818"..text.."|r" end
 
-        IE_CONTROLS.Label(
-            control:GetName()..data.currencyType,
-            control,
-            {70,20},
-            {RIGHT,control,RIGHT,-6,17},
-            "ZoFontGameSmall",
-            nil,
-            {2,2},
-            text
-        )
+        local controls = LibPanicida.Controls
+        controls.Label({
+            name = control:GetName()..INVENTORY_EXTENSIONS.name..data.currencyType,
+            parent = control,
+            dims = {70, 20},
+            anchor = {RIGHT,control,RIGHT,-6,17},
+            font = "ZoFontGameSmall",
+            align ={2,2},
+             text = text
+        })
     end
     INVENTORY_WALLET.SetUpEntry = SetUpEntry
 
