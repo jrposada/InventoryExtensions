@@ -24,7 +24,6 @@ local function OnAddOnLoaded(eventCode, addonName)
 
     -- Initialize stuff
     IE_CURRENCY_TRACKER.Init()
-    IE_AUTO_BIND.Init()
     IE_TTC_PRICE.Init()
 
     IE_SETTINGS_MENU.Init()
