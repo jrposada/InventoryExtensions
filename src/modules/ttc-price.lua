@@ -26,21 +26,40 @@ end
 local function SetSearchPriceControl(link, control, result)
     local isBound = IsItemLinkBound(link)
     local priceInfo = TTCPrice:GetPriceInfo(link)
-    local itemValue = priceInfo and (priceInfo.SuggestedPrice or priceInfo.Avg)
+    local ttcItemValue = priceInfo and (priceInfo.SuggestedPrice or priceInfo.Avg)
+    if isBound or not ttcItemValue then
+        return
+    end
 
-    if not isBound and itemValue then
-        local perItemPrice = control.perItemPrice
-        local sellPriceControl = control.sellPriceControl
-        local stackCount = result:GetStackCount()
-        local stackValue = ZO_CurrencyControl_FormatAndLocalizeCurrency(itemValue * stackCount, true)
+    local perItemPrice = control.perItemPrice
+    local sellPriceControl = control.sellPriceControl
+    local stackCount = result:GetStackCount()
+    local ttcStackValue = ZO_CurrencyControl_FormatAndLocalizeCurrency(ttcItemValue * stackCount, ttcItemValue >= 100000)
+    local itemValue = result.purchasePrice
+    local profit = ttcItemValue - itemValue
+    local profitMargin = (profit) * 100 / itemValue -- in %
+    local formattedTtcStackValue = ttcStackValue
 
-        -- TODO: fix writs prices. Stacks are counted per writ instead per item. So prices are inflated.
+    if profitMargin <= 8 or profit <= 1000 then
+        return
+    elseif profitMargin <= 15 then
+        formattedTtcStackValue = "|c32CD32" .. ttcStackValue .. "|r" -- green
+    elseif profitMargin <= 30 then
+        formattedTtcStackValue = "|c398df7" .. ttcStackValue .. "|r" -- blue
+    elseif profitMargin <= 50 then
+        formattedTtcStackValue = "|c9e2df4" .. ttcStackValue .. "|r" -- purple
+    else
+        formattedTtcStackValue = "|cFFD700" .. ttcStackValue .. "|r" -- gold
+    end
 
-        sellPriceControl:SetText(stackValue .. " - " .. sellPriceControl:GetText():gsub("|t.-:.-:", "|t14:14:"))
+    -- FIXME: fix writs prices. Stacks are counted per writ instead per item. So prices are inflated.
 
-        if stackCount > 1 then
-            perItemPrice:SetText("@" .. itemValue .. " - " .. perItemPrice:GetText():gsub("|t.-:.-:", "|t14:14:"):gsub("@",""))
-        end
+    sellPriceControl:SetText(formattedTtcStackValue ..
+        " - " .. sellPriceControl:GetText():gsub("|t.-:.-:", "|t14:14:"))
+
+    if stackCount > 1 then
+        perItemPrice:SetText("@" ..
+            ttcStackValue .. " - " .. perItemPrice:GetText():gsub("|t.-:.-:", "|t14:14:"):gsub("@", ""))
     end
 end
 
