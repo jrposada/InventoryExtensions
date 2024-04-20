@@ -200,7 +200,25 @@
         "GetInterfaceColor",
         "ZO_ColorDef",
         "ZO_PlayerBankBackpack",
-        "LibPanicida"
+        "LibPanicida",
+        "AwesomeGuildStore",
+        "ZO_ScrollList_GetDataTypeTable",
+        "ZO_Inventory_GetBagAndIndex",
+        "SLOT_TYPE_ITEM",
+        "SLOT_TYPE_TRADING_HOUSE_POST_ITEM",
+        "SLOT_TYPE_PENDING_CRAFTING_COMPONENT",
+        "SLOT_TYPE_EQUIPMENT",
+        "SLOT_TYPE_BANK_ITEM",
+        "SLOT_TYPE_GUILD_BANK_ITEM",
+        "SLOT_TYPE_CRAFTING_COMPONENT",
+        "SLOT_TYPE_REPAIR",
+        "SLOT_TYPE_CRAFT_BAG_ITEM",
+        "SLOT_TYPE_TRADING_HOUSE_ITEM_RESULT",
+        "GetTradingHouseSearchResultItemLink",
+        "ZO_Inventory_GetSlotIndex",
+        "ZO_InventorySlot_GetType",
+        "TamrielTradeCentre",
+        "ZO_InventorySlot_GetInventorySlotComponents"
     ],
     "cSpell.words": [
         "Panicida"
