@@ -14,7 +14,7 @@ local currencyOptions = {
 local function SetPriceControl(link, control)
     local isBound = IsItemLinkBound(link)
     local priceInfo = TTCPrice:GetPriceInfo(link)
-    local itemValue = priceInfo and (priceInfo.SuggestedPrice or priceInfo.Avg)
+    local itemValue = priceInfo and (priceInfo.SaleAvg or priceInfo.Avg)
 
     if not isBound and itemValue then
         local sellPriceControl = control:GetNamedChild("SellPrice")
@@ -26,7 +26,7 @@ end
 local function SetSearchPriceControl(link, control, result)
     local isBound = IsItemLinkBound(link)
     local priceInfo = TTCPrice:GetPriceInfo(link)
-    local ttcItemValue = priceInfo and (priceInfo.SuggestedPrice or priceInfo.Avg)
+    local ttcItemValue = priceInfo and (priceInfo.SaleAvg or priceInfo.Avg)
     if isBound or not ttcItemValue then
         return
     end
