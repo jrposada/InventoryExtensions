@@ -14,11 +14,27 @@ local currencyOptions = {
 local function SetPriceControl(link, control)
     local isBound = IsItemLinkBound(link)
     local priceInfo = TTCPrice:GetPriceInfo(link)
-    local itemValue = priceInfo and (priceInfo.SaleAvg or priceInfo.Avg)
 
-    if not isBound and itemValue then
-        local sellPriceControl = control:GetNamedChild("SellPrice")
-        ZO_CurrencyControl_SetSimpleCurrency(sellPriceControl, CURT_MONEY, math.floor(itemValue), currencyOptions)
+    if priceInfo then
+        local ttcPriceSaleAvg = priceInfo.SaleAvg or priceInfo.Avg
+        local ttcPriceSuggestedPrice = priceInfo.SuggestedPrice or priceInfo.Avg
+
+        -- Use suggested
+        local ttcUnitItemPrice = ttcPriceSuggestedPrice
+        if ttcPriceSaleAvg < ttcPriceSuggestedPrice then
+            -- unless sale avg is less
+            ttcUnitItemPrice = ttcPriceSaleAvg
+        end
+        if isBound or not ttcUnitItemPrice then
+            return
+        end
+
+
+        if not isBound and ttcUnitItemPrice then
+            local sellPriceControl = control:GetNamedChild("SellPrice")
+            ZO_CurrencyControl_SetSimpleCurrency(sellPriceControl, CURT_MONEY, math.floor(ttcUnitItemPrice),
+                currencyOptions)
+        end
     end
 
     -- TODO: move
