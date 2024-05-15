@@ -50,10 +50,8 @@ local function SetPriceControl(link, control)
     end
 end
 
-
-local function SetSearchPriceControl(link, control, result)
-    local isBound = IsItemLinkBound(link)
-    local ttcPriceInfo = TTCPrice:GetPriceInfo(link)
+local function GetMarginData(data, itemLink)
+    local ttcPriceInfo = TTCPrice:GetPriceInfo(itemLink)
 
     if not ttcPriceInfo then
         return
@@ -68,17 +66,26 @@ local function SetSearchPriceControl(link, control, result)
         -- unless sale avg is less
         ttcUnitItemPrice = ttcPriceSaleAvg
     end
+
+    local stackCount = data:GetStackCount()
+    local purchasePrice = data.purchasePrice
+    local profit = ttcUnitItemPrice * stackCount - purchasePrice
+    local unitProfit = ttcUnitItemPrice - purchasePrice / stackCount
+    local profitMargin = (profit) * 100 / ttcUnitItemPrice -- in %
+
+    return ttcUnitItemPrice, profit, unitProfit, profitMargin, stackCount
+end
+
+local function SetSearchPriceControl(link, control, result)
+    local isBound = IsItemLinkBound(link)
+    local ttcUnitItemPrice, profit, unitProfit, profitMargin, stackCount = GetMarginData(result, link)
+
     if isBound or not ttcUnitItemPrice then
         return
     end
 
     local perItemPriceControl = control.perItemPrice
     local sellPriceControl = control.sellPriceControl
-    local stackCount = result:GetStackCount()
-    local purchasePrice = result.purchasePrice
-    local profit = ttcUnitItemPrice * stackCount - purchasePrice
-    local unitProfit = ttcUnitItemPrice - purchasePrice / stackCount
-    local profitMargin = (profit) * 100 / ttcUnitItemPrice -- in %
 
     local formattedProfit = ZO_CurrencyControl_FormatAndLocalizeCurrency(
         zo_roundToNearest(profit, 0.01),
@@ -89,15 +96,15 @@ local function SetSearchPriceControl(link, control, result)
         unitProfit >= 100000
     )
 
-    if (profitMargin <= 15 or profit <= 3000) then
+    if (profitMargin <= 20 or profit < 3000) then
         return
-    elseif profitMargin <= 30 then
+    elseif profitMargin <= 35 then
         formattedProfit = "|c32CD32+" .. formattedProfit .. "|r"         -- green
         formattedUnitProfit = "|c32CD32+" .. formattedUnitProfit .. "|r" -- green
-    elseif profitMargin <= 40 then
+    elseif profitMargin <= 50 then
         formattedProfit = "|c398df7+" .. formattedProfit .. "|r"         -- blue
         formattedUnitProfit = "|c398df7+" .. formattedUnitProfit .. "|r" -- blue
-    elseif profitMargin <= 50 then
+    elseif profitMargin <= 65 then
         formattedProfit = "|c9e2df4+" .. formattedProfit .. "|r"         -- purple
         formattedUnitProfit = "|c9e2df4+" .. formattedUnitProfit .. "|r" -- purple
     else
@@ -166,26 +173,138 @@ local function InitStoreSearch(dataType)
     end
 end
 
+local STEPS = {
+    { id = 1, value = -math.huge },
+    { id = 2, value = 20 },
+    { id = 3, value = 35 },
+    { id = 4, value = 50 },
+    { id = 5, value = 65 }
+}
+
+local function InitAGSIntegration(tradingHouseWrapper)
+    for i = 1, #STEPS do
+        local value = STEPS[i]
+        value.label = "<= " .. value.value .. "%"
+    end
+
+    -- Filter is constant of 104. Leaving this for compatibility until the AGS update releases.
+    -- local SUBFILTER_ATT        = AwesomeGuildStore.data.FILTER_ID.ARKADIUS_TRADE_TOOLS_DEAL_FILTER or 104
+    local SUBFILTER_ATT        = 1001
+    local FilterBase           = AGS.class.FilterBase
+    local ValueRangeFilterBase = AGS.class.ValueRangeFilterBase
+    local FILTER_ID            = AGS.data.FILTER_ID
+    local SUB_CATEGORY_ID      = AGS.data.SUB_CATEGORY_ID
+    local MIN_VALUE            = 1
+    local MAX_VALUE            = 5
+    local AGSFilter            = ValueRangeFilterBase:Subclass()
+
+    function AGSFilter:New(...)
+        return ValueRangeFilterBase.New(self, ...)
+    end
+
+    function AGSFilter:ResetCache()
+        self.averagePrices = {}
+    end
+
+    function AGSFilter:Initialize()
+        self.averagePrices = {}
+        ValueRangeFilterBase.Initialize(
+            self
+            , SUBFILTER_ATT
+            , FilterBase.GROUP_LOCAL
+            , {
+                label = 'Deal Finder'
+                ,
+                min = MIN_VALUE
+                ,
+                max = MAX_VALUE
+                ,
+                steps = STEPS
+            }
+        )
+        local qualityById = {}
+        for i = 1, #self.config.steps do
+            local step = self.config.steps[i]
+            local color = i == 1 and ZO_ColorDef:New(1, 0, 0) or GetItemQualityColor(step.id)
+            step.color = color
+            step.colorizedLabel = color:Colorize(step.label)
+            qualityById[step.id] = step
+        end
+        self.qualityById = qualityById
+    end
+
+    function AGSFilter:CanFilter(...)
+        return true
+    end
+
+    function AGSFilter:ForceUpdate()
+        self:HandleChange(self.min, self.max)
+    end
+
+    function AGSFilter:IsDefaultDealLevel(margin)
+        -- return (margin == -math.huge and Settings.defaultDealLevel >= self.min and Settings.defaultDealLevel <= self.max and Settings.defaultDealLevel >= self.min and Settings.defaultDealLevel <= self.max)
+        return true
+    end
+
+    function AGSFilter:IsWithinDealRange(profit, margin)
+        return margin ~= nil and profit ~= nil and profit >= 3000 and
+            ((margin ~= -math.huge) and (margin >= STEPS[self.min].value) and (self.max == MAX_VALUE or margin < STEPS[self.max + 1].value))
+    end
+
+    function AGSFilter:FilterLocalResult(data)
+        local itemLink = GetTradingHouseSearchResultItemLink(data.slotIndex)
+        if not itemLink then return false end
+        -- local days = ArkadiusTradeToolsSales.TradingHouse:GetCalcDays()
+        -- local margin = GetMarginData(self.averagePrices, data, itemLink, days)
+        -- return self:IsWithinDealRange(margin) or self:IsDefaultDealLevel(margin)
+        local ttcUnitItemPrice, profit, unitProfit, profitMargin = GetMarginData(data, itemLink)
+        return self:IsWithinDealRange(profit, profitMargin)
+    end
+
+    function AGSFilter:IsLocal()
+        return true
+    end
+
+    function AGSFilter:GetTooltipText(min, max)
+        if (min ~= self.config.min or max ~= self.config.max) then
+            local out = {}
+            for id = min, max do
+                local step = self.qualityById[id]
+                out[#out + 1] = step.colorizedLabel
+            end
+            return table.concat(out, ", ")
+        end
+        return ""
+    end
+
+    local filter = AGSFilter:New()
+    -- We need to register both the filter function and the actual UI fragment before it'll show up in AGS
+    AGS:RegisterFilter(filter)
+    AGS:RegisterFilterFragment(AGS.class.QualityFilterFragment:New(SUBFILTER_ATT))
+    EVENT_MANAGER:RegisterForEvent(INVENTORY_EXTENSIONS.name, EVENT_CLOSE_TRADING_HOUSE,
+        function() filter:ResetCache() end)
+end
+
 local function Init()
     local savedVars = INVENTORY_EXTENSIONS.SavedVars
 
-    if savedVars.ttcPrice.enabled then
+    if TTC and savedVars.ttcPrice.enabled then
         InitInventory(ZO_PlayerInventoryList.dataTypes[1])
         InitInventory(ZO_PlayerBankBackpack.dataTypes[1])
         InitInventory(ZO_CraftBagList.dataTypes[1])
 
-        local originalAgsInitializeResultList = AGS.class.SearchResultListWrapper.InitializeResultList
-        AGS.class.SearchResultListWrapper.InitializeResultList = function(self, tradingHouseWrapper, searchManager)
-            originalAgsInitializeResultList(self, tradingHouseWrapper, searchManager)
-            local searchResultDataType = ZO_ScrollList_GetDataTypeTable(self.list.list, 1)
-            InitStoreSearch(searchResultDataType)
+        if AGS then
+            local originalAgsInitializeResultList = AGS.class.SearchResultListWrapper.InitializeResultList
+            AGS.class.SearchResultListWrapper.InitializeResultList = function(self, tradingHouseWrapper, searchManager)
+                originalAgsInitializeResultList(self, tradingHouseWrapper, searchManager)
+                local searchResultDataType = ZO_ScrollList_GetDataTypeTable(self.list.list, 1)
+                InitStoreSearch(searchResultDataType)
+            end
+
+            AGS:RegisterCallback(AGS.callback.AFTER_FILTER_SETUP, InitAGSIntegration)
+            -- ZO_PostHook(AwesomeGuildStore.class.SellTabWrapper, 'InitializeListingInput',
+            --     function() self:AddAGSPriceButton() end)
         end
-
-        -- local searchResultDataType = ZO_ScrollList_GetDataTypeTable(list.list, SEARCH_RESULTS_DATA_TYPE)
-        -- local originalSearchResultSetupCallback = searchResultDataType.setupCallback
-
-        -- IE.LogLater('p[acooo]')
-        -- IE.LogLater(AwesomeGuildStore.internal.tradingHouse.searchResultList)
     end
 end
 

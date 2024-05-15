@@ -3,7 +3,8 @@
 ## Author: Panicida
 ## APIVersion: 100033
 ## AddOnVersion: 020001
-## DependsOn: LibPanicida LibAddonMenu-2.0 AwesomeGuildStore TamrielTradeCentre
+## DependsOn: LibPanicida LibAddonMenu-2.0
+## OptionalDependsOn: AwesomeGuildStore TamrielTradeCentre
 ## SavedVariables: InventoryExtensions_Vars
 
 ; DISCLAIMER:
