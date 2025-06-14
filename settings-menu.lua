@@ -23,12 +23,6 @@ function IE_SETTINGS_MENU.Init()
         },
         {
             type = "checkbox",
-            name = IE.Loc("Settings_AutoBind"),
-            getFunc = function() return saveData.autoBind.enabled end,
-            setFunc = function(value) IE_AUTO_BIND.Enable(value) end
-        },
-        {
-            type = "checkbox",
             name = IE.Loc("Settings_TtcPrice"),
             getFunc = function() return saveData.ttcPrice.enabled end,
             setFunc = function(value) IE_TTC_PRICE.Enable(value) end,
