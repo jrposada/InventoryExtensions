@@ -19,15 +19,10 @@
 
 vars.lua
 
-Infrastructure/Utils.lua
-Infrastructure/Controls.lua
-Infrastructure/ChatMessage.lua
-
 lang\en.lua
 lang\$(language).lua
 
 src/modules/currency-tracker.lua
-src/modules/auto-bind.lua
 src/modules/ttc-price.lua
 
 settings-menu.lua

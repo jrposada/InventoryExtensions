@@ -2,8 +2,6 @@ local AGS = AwesomeGuildStore
 local TTC = TamrielTradeCentre
 local TTCPrice = TamrielTradeCentrePrice
 
-IE_TTC_PRICE = {}
-
 local currencyOptions = {
     showTooltips = false,
     font = "ZoFontGameShadow",
@@ -31,7 +29,7 @@ local function SetPriceControl(link, control)
 
 
         if not isBound and ttcUnitItemPrice then
-            local sellPriceControl = control:GetNamedChild("SellPrice")
+            local sellPriceControl = control:GetNamedChild("SellPriceText")
             ZO_CurrencyControl_SetSimpleCurrency(sellPriceControl, CURT_MONEY, math.floor(ttcUnitItemPrice),
                 currencyOptions)
         end
@@ -307,6 +305,8 @@ local function Init()
         end
     end
 end
+
+IE_TTC_PRICE = {}
 
 function IE_TTC_PRICE.Init()
     Init()
