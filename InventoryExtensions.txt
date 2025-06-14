@@ -1,8 +1,8 @@
 ## Title: Inventory Extensions
 ## Description: Automatically marks items in the inventory.
 ## Author: Panicida
-## APIVersion: 100033
-## AddOnVersion: 020001
+## APIVersion: 101045
+## AddOnVersion: 020002
 ## DependsOn: LibPanicida LibAddonMenu-2.0
 ## OptionalDependsOn: AwesomeGuildStore TamrielTradeCentre
 ## SavedVariables: InventoryExtensions_Vars
