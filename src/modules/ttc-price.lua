@@ -1,6 +1,7 @@
 local AGS = AwesomeGuildStore
 local TTC = TamrielTradeCentre
 local TTCPrice = TamrielTradeCentrePrice
+local Controls = LibPanicida.Controls
 
 local currencyOptions = {
     showTooltips = false,
@@ -8,6 +9,8 @@ local currencyOptions = {
     iconSide = RIGHT,
     color = ZO_ColorDef:New(1, 0.84, 0, 1),
 }
+
+local armoryBuildIconIndexByBuildName = {}
 
 local function SetPriceControl(link, control)
     local isBound = IsItemLinkBound(link)
@@ -33,18 +36,6 @@ local function SetPriceControl(link, control)
             ZO_CurrencyControl_SetSimpleCurrency(sellPriceControl, CURT_MONEY, math.floor(ttcUnitItemPrice),
                 currencyOptions)
         end
-    end
-
-    -- TODO: move
-    local isCrafted = IsItemLinkCrafted(link)
-    local isConsumable = IsItemLinkConsumable(link)
-
-    if isConsumable and isCrafted then
-        local traitInfoControl = control:GetNamedChild("TraitInfo")
-        traitInfoControl:ClearIcons()
-
-        traitInfoControl:AddIcon("esoui/art/icons/poi/poi_crafting_complete.dds")
-        traitInfoControl:Show()
     end
 end
 
@@ -121,13 +112,76 @@ local function SetSearchPriceControl(link, control, result)
     end
 end
 
-local function OverrideInventoryPrice(control, slot)
+local function SetCraftedIcon(link, control)
+    local isCrafted = IsItemLinkCrafted(link)
+    local isConsumable = IsItemLinkConsumable(link)
+
+    if isConsumable and isCrafted then
+        local traitInfoControl = control:GetNamedChild("TraitInfo")
+        traitInfoControl:ClearIcons()
+
+        traitInfoControl:AddIcon("esoui/art/icons/poi/poi_crafting_complete.dds")
+        traitInfoControl:Show()
+    end
+end
+
+local function SetArmoryInfo(slot, control)
+    if IsItemInArmory(slot.bagId, slot.slotIndex) then
+        local armoryBuildList = { GetItemArmoryBuildList(slot.bagId, slot.slotIndex) }
+
+        if #armoryBuildList == 0 then
+            return
+        end
+
+        local armoryControl = Controls.MultiIcon(
+            control:GetName() .. "Armory",
+            control,
+            { 32, 32 },
+            { RIGHT, control:GetNamedChild("TraitInfo"), RIGHT, -37, 0 }
+        )
+
+        if armoryControl == nil then
+            return
+        end
+
+        armoryControl:ClearIcons()
+
+        local tooltipLines = {}
+        for _, buildName in ipairs(armoryBuildList) do
+            local buildIconIndex = armoryBuildIconIndexByBuildName[buildName];
+            local buildIcon = string.format(ZO_ARMORY_BUILD_ICON_TEXTURE_FORMATTER, buildIconIndex)
+            table.insert(tooltipLines, buildName)
+            armoryControl:AddIcon(buildIcon)
+        end
+
+        if #tooltipLines ~= 0 then
+            Controls.SetTooltip(
+                armoryControl,
+                tooltipLines
+            )
+        end
+
+        armoryControl:SetDrawTier(DT_HIGH)
+        armoryControl:Show()
+    else
+        local armoryControl = control:GetNamedChild("Armory")
+        if armoryControl then
+            armoryControl:ClearIcons()
+        end
+    end
+
+
+end
+
+local function ExtendInventorySlot(control, slot)
     local link = GetItemLink(slot.bagId, slot.slotIndex)
     if link == nil or not TTC:IsItemLink(link) then
         return
     end
 
     SetPriceControl(link, control)
+    SetCraftedIcon(link, control)
+    SetArmoryInfo(slot, control)
 end
 
 local function OverrideStoreSearchPrice(control, result)
@@ -146,14 +200,13 @@ local function OverrideStoreSearchPrice(control, result)
     SetSearchPriceControl(link, control, result)
 end
 
-
 local function InitInventory(dataType)
     if dataType then
         ZO_PostHook(
             dataType,
             "setupCallback",
             function(control, slot)
-                OverrideInventoryPrice(control, slot)
+                ExtendInventorySlot(control, slot)
             end
         )
     end
@@ -285,6 +338,13 @@ end
 
 local function Init()
     local savedVars = INVENTORY_EXTENSIONS.SavedVars
+
+    local numBuilds = GetNumUnlockedArmoryBuilds()
+    for index = 1, numBuilds do
+        local buildName = GetArmoryBuildName(index)
+        local buildIconIndex = GetArmoryBuildIconIndex(index)
+        armoryBuildIconIndexByBuildName[buildName] = buildIconIndex
+    end
 
     if TTC and savedVars.ttcPrice.enabled then
         InitInventory(ZO_PlayerInventoryList.dataTypes[1])
