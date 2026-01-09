@@ -1,0 +1,29 @@
+## Title: Inventory Extensions
+## Description: Automatically marks items in the inventory.
+## Author: Panicida
+## Version: 2.0.2
+## APIVersion: 101048
+## DependsOn: LibPanicida LibAddonMenu-2.0
+## OptionalDependsOn: AwesomeGuildStore TamrielTradeCentre
+## SavedVariables: InventoryExtensions_Vars
+
+; DISCLAIMER:
+;
+; This Add-on is not created by, affiliated with or sponsored by ZeniMax
+; Media Inc. or its affiliates. The Elder Scrolls® and related logos are
+; registered trademarks or trademarks of ZeniMax Media Inc. in the United
+; States and/or other countries. All rights reserved.
+;
+; You can read the full terms at:
+; https://account.elderscrollsonline.com/add-on-terms
+
+vars.lua
+
+lang\en.lua
+lang\$(language).lua
+
+src/modules/currency-tracker.lua
+src/modules/ttc-price.lua
+
+settings-menu.lua
+main.lua
